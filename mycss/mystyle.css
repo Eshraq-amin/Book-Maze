@@ -1,0 +1,98 @@
+.sign_in-btn{
+    background:  #143556;
+}
+.btn::before{
+    background: #50c6f0;
+}
+.header-area .header-top .header-info-left .form-box .search-icon i{
+    color:#143556;
+}
+.slider-area{
+    background-color: lightcyan;
+}
+.header-bottom{
+    background: lightblue;
+}
+.header-area .header-top .header-info-right ul li a:hover{
+    color: #50c6f0;
+}
+.mobile_menu .slicknav_menu .slicknav_btn .slicknav_icon-bar{
+    background-color: #143556 !important;
+}
+.mobile_menu .slicknav_menu .slicknav_nav{
+    background: #50c6f0;
+}
+
+.navbar-buttons-index:hover{
+    color: #50c6f0 !important;
+}
+.btn{
+    background: #143556;
+}
+.slider-bg1{
+    background-image: url(../assets/img/hero/slider-bg2-pic.jpg) ;
+    opacity: 70%;
+}
+.slider-bg2{
+    background-image: url(../assets/img/hero/slider-bg3-pic.jpg);
+    opacity: 70%;
+}
+.slider-bg3{
+    background-image: url(../assets/img/hero/slider-bg1-pic.jpg);
+    opacity: 70%;
+}
+
+.best-selling{ 
+     background-color: lightcyan; 
+}
+.section-bg{
+    background-color: lightgray;
+} 
+.services-area2 .single-services{
+    background-color: #143556;
+}
+
+.border-btn:hover{
+    color: #143556;
+
+}
+.nav-button .nav-tabs .nav-link.active{
+    background-color: #143556;
+}
+.border-btn.border-btn2{
+    border: 1px solid #143556 !important;
+    color: #143556 !important;
+}
+.border-btn.border-btn2:hover::before{
+    background: #50c6f0;
+}
+.best-selling .properties .properties-card .properties-caption .properties-footer .review .rating i{
+    color: goldenrod;
+}
+.best-selling .properties .properties-card .properties-caption .properties-footer .price span{
+    color: #143556;
+}
+#scrollUp, #back-top{
+    background: aqua;
+}
+.top-padding{
+    padding-top: 40px;
+}
+.category-listing .single-listing .select-Categories .container input:checked ~ .checkmark{
+    background-color: #143556;
+}
+.irs-slider{
+    border: 1px solid #50c6f0;
+    background-color: #143556;
+}
+.irs-bar{
+    border-top: #50c6f0;
+    border-bottom: #50c6f0;
+    background: #143556;
+}
+/* .slider-bg4{
+    background-image: ;
+} */
+.best-selling .properties:hover .properties-caption h3 a{
+    color: #50c6f0;
+}
