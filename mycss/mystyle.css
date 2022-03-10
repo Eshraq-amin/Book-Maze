@@ -90,9 +90,63 @@
     border-bottom: #50c6f0;
     background: #143556;
 }
-/* .slider-bg4{
-    background-image: ;
-} */
+ .slider-bg4{
+    background-image: url(../assets/img/hero/book-genre.jpg);
+} 
 .best-selling .properties:hover .properties-caption h3 a{
     color: #50c6f0;
+}
+.boxed-btn{
+    color: #143556 !important;
+    border: 1px solid #143556;
+}
+.boxed-btn:hover{
+    background: #143556;
+    border: 1px solid #143556;
+}
+.slider-bg5{
+    background-image: url(../assets/img/hero/aboutus.jpg);
+} 
+.white-btn::before{
+    background: #50c6f0;
+}
+.submit-btn3{
+    background: #50c6f0;
+}
+.login-check a{
+    color: #143556;
+}
+.login-form-area .login-form .login-footer p a{
+    color: blue;
+}
+.register-form-area .register-form .register-footer p a{
+    color: blue !important;
+}
+
+.myaccount-tab-menu .nav-tabs .nav-link {
+    border: 1px solid #e5e5e5 !important;
+    border-bottom: none !important;
+    border-radius: 0 !important;
+    color: white !important;
+    font-size: 15px !important;
+    display: block !important;
+    padding: 10px 15px !important;
+    text-align: left !important;
+    text-transform: capitalize !important;
+}
+
+.nav-link{
+    width: 100%;
+}
+
+.myaccount-tab-menu .nav-tabs .nav-link:hover, .myaccount-tab-menu .nav-tabs .nav-link .active{
+    background-color: #143556 !important;
+    border-color: #143556 !important;
+    color: #FFFFFF !important;
+}
+
+.account-nav{
+    background-color: #143556 !important;
+    border: 1px solid #143556 !important;
+    color: #FFFFFF !important;
 }

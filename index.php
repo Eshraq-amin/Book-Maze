@@ -97,10 +97,10 @@
                         <div class="properties pb-20">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/book1.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/book1.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption">
-                                   <h3><a href="book-details.html">Six Crimson Cranes</a></h3>
+                                   <h3><a href="book-details.php">Six Crimson Cranes</a></h3>
                                    <p>Elizabeth Lim</p>
                                    <div class="properties-footer d-flex justify-content-between align-items-center">
                                     <div class="review">
@@ -124,10 +124,10 @@
                     <div class="properties pb-20">
                         <div class="properties-card">
                             <div class="properties-img">
-                                <a href="book-details.html"><img src="assets/img/gallery/book2.jpg" alt=""></a>
+                                <a href="book-details.php"><img src="assets/img/gallery/book2.jpg" alt=""></a>
                             </div>
                             <div class="properties-caption">
-                               <h3><a href="book-details.html">Norse Mythology</a></h3>
+                               <h3><a href="book-details.php">Norse Mythology</a></h3>
                                <p>Neil Gaiman</p>
                                <div class="properties-footer d-flex justify-content-between align-items-center">
                                 <div class="review">
@@ -151,10 +151,10 @@
                 <div class="properties pb-20">
                     <div class="properties-card">
                         <div class="properties-img">
-                            <a href="book-details.html"><img src="assets/img/gallery/book3.jpg" alt=""></a>
+                            <a href="book-details.php"><img src="assets/img/gallery/book3.jpg" alt=""></a>
                         </div>
                         <div class="properties-caption">
-                           <h3><a href="book-details.html">A Deadly Education</a></h3>
+                           <h3><a href="book-details.php">A Deadly Education</a></h3>
                            <p>Naomi Novik</p>
                            <div class="properties-footer d-flex justify-content-between align-items-center">
                             <div class="review">
@@ -178,10 +178,10 @@
             <div class="properties pb-20">
                 <div class="properties-card">
                     <div class="properties-img">
-                        <a href="book-details.html"><img src="assets/img/gallery/book4.jpg" alt=""></a>
+                        <a href="book-details.php"><img src="assets/img/gallery/book4.jpg" alt=""></a>
                     </div>
                     <div class="properties-caption">
-                       <h3><a href="book-details.html">The Song  Achilles</a></h3>
+                       <h3><a href="book-details.php">The Song  Achilles</a></h3>
                        <p>Madeline Miller</p>
                        <div class="properties-footer d-flex justify-content-between align-items-center">
                         <div class="review">
@@ -205,10 +205,10 @@
         <div class="properties pb-20">
             <div class="properties-card">
                 <div class="properties-img">
-                    <a href="book-details.html"><img src="assets/img/gallery/book5.jpg" alt=""></a>
+                    <a href="book-details.php"><img src="assets/img/gallery/book5.jpg" alt=""></a>
                 </div>
                 <div class="properties-caption">
-                   <h3><a href="book-details.html">No Rules Rules</a></h3>
+                   <h3><a href="book-details.php">No Rules Rules</a></h3>
                    <p>Erin Meyer &<br>Reed Hastings</p>
                    <div class="properties-footer d-flex justify-content-between align-items-center">
                     <div class="review">
@@ -232,10 +232,10 @@
     <div class="properties pb-20">
         <div class="properties-card">
             <div class="properties-img">
-                <a href="book-details.html"><img src="assets/img/gallery/book6.jpg" alt=""></a>
+                <a href="book-details.php"><img src="assets/img/gallery/book6.jpg" alt=""></a>
             </div>
             <div class="properties-caption">
-               <h3><a href="book-details.html">The Guest Cat</a></h3>
+               <h3><a href="book-details.php">The Guest Cat</a></h3>
                <p>Takashi Hiraide</p>
                <div class="properties-footer d-flex justify-content-between align-items-center">
                 <div class="review">
@@ -259,10 +259,10 @@
 <div class="properties pb-20">
     <div class="properties-card">
         <div class="properties-img">
-            <a href="book-details.html"><img src="assets/img/gallery/book7.jpg" alt=""></a>
+            <a href="book-details.php"><img src="assets/img/gallery/book7.jpg" alt=""></a>
         </div>
         <div class="properties-caption">
-           <h3><a href="book-details.html">The Rose & The Dagger</a></h3>
+           <h3><a href="book-details.php">The Rose & The Dagger</a></h3>
            <p>Renee Ahdieh</p>
            <div class="properties-footer d-flex justify-content-between align-items-center">
             <div class="review">
@@ -327,7 +327,7 @@
                                         </div>
                                         <p>(120 Review)</p>
                                     </div>
-                                    <a href="book-details.html" class="border-btn">View Details</a>
+                                    <a href="book-details.php" class="border-btn">View Details</a>
                                 </div>
                             </div>
                             <!-- Single -->
@@ -352,7 +352,7 @@
                                         </div>
                                         <p>(120 Review)</p>
                                     </div>
-                                    <a href="book-details.html" class="border-btn">View Details</a>
+                                    <a href="book-details.php" class="border-btn">View Details</a>
                                 </div>
                             </div>
                         </div>
@@ -407,10 +407,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Sky Beyond The Storm</a></h3>
+                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
                                     <p>Saba Tahir</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -435,10 +435,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Maid</a></h3>
+                                    <h3><a href="book-details.php">The Maid</a></h3>
                                     <p>Nita Prose</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -463,10 +463,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">Capturing Hope</a></h3>
+                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
                                     <p>Dr. Mahatir Bin Mohamad</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -491,10 +491,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Terrible Kindness</a></h3>
+                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
                                     <p>JO Browning Wroe</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -519,10 +519,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Golden Flame</a></h3>
+                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
                                     <p>Emily Victoria</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -547,10 +547,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Bone Spindle</a></h3>
+                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
                                     <p>Leslie Vedder</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -580,10 +580,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling1.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling1.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Star Outside My Window</a></h3>
+                                    <h3><a href="book-details.php">The Star Outside My Window</a></h3>
                                     <p>Onjali Q Rauf</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -608,10 +608,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling3.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling3.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">I Must Betray You</a></h3>
+                                    <h3><a href="book-details.php">I Must Betray You</a></h3>
                                     <p>Ruta Sepetys</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -636,10 +636,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling5.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling5.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Paris Bookseller</a></h3>
+                                    <h3><a href="book-details.php">The Paris Bookseller</a></h3>
                                     <p>Kerri Maher</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -664,10 +664,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Sky Beyond The Storm</a></h3>
+                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
                                     <p>Saba Tahir</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -692,10 +692,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Maid</a></h3>
+                                    <h3><a href="book-details.php">The Maid</a></h3>
                                     <p>Nita Prose</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -720,10 +720,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">Capturing Hope</a></h3>
+                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
                                     <p>Dr Mahatir Bin Mohamad</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -753,10 +753,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Sky Beyond The Storm</a></h3>
+                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
                                     <p>Saba Tahir</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -781,10 +781,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Maid</a></h3>
+                                    <h3><a href="book-details.php">The Maid</a></h3>
                                     <p>Nita Prose</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -809,10 +809,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">Capturing Hope</a></h3>
+                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
                                     <p>Dr Mahatir Bin Mohamad</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -837,10 +837,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Terrible Kindness</a></h3>
+                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
                                     <p>JO Browning Wroe</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -865,10 +865,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Golden Flame</a></h3>
+                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
                                     <p>Emily Victoria</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -893,10 +893,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Bone Spindle</a></h3>
+                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
                                     <p>Leslie Vedder</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -926,10 +926,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Golden Flame</a></h3>
+                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
                                     <p>Emily Victoria</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -954,10 +954,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Bone Spindle</a></h3>
+                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
                                     <p>Leslie Vedder</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -982,10 +982,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Sky Beyond The Storm</a></h3>
+                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
                                     <p>Saba Tahir</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1010,10 +1010,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Maid</a></h3>
+                                    <h3><a href="book-details.php">The Maid</a></h3>
                                     <p>Nita Prose</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1038,10 +1038,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">Capturing Hope</a></h3>
+                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
                                     <p>Dr. Mahatir Bin Mohamad</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1066,10 +1066,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Terrible Kindness</a></h3>
+                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
                                     <p>JO Browning Wroe</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1099,10 +1099,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Sky Beyond The Storm</a></h3>
+                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
                                     <p>Saba Tahir</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1127,10 +1127,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Maid</a></h3>
+                                    <h3><a href="book-details.php">The Maid</a></h3>
                                     <p>Nita Prose</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1155,10 +1155,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">Capturing Hopee</a></h3>
+                                    <h3><a href="book-details.php">Capturing Hopee</a></h3>
                                     <p>Dr Mahatir Bin Mohamad</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1183,10 +1183,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">A Terrible Kindness</a></h3>
+                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
                                     <p>JO Browning Wroe</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1211,10 +1211,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Golden Flame</a></h3>
+                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
                                     <p>Emily Victoria</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">
@@ -1239,10 +1239,10 @@
                         <div class="properties pb-30">
                             <div class="properties-card">
                                 <div class="properties-img">
-                                    <a href="book-details.html"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
+                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
                                 </div>
                                 <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.html">The Bone Spindle</a></h3>
+                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
                                     <p>Leslie Vedder</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <div class="review">

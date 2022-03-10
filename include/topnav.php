@@ -24,9 +24,9 @@
                                     <li><a href="#">FAQ</a></li>
                                     <li><a href="#">Track Order</a></li>
                                     <li class="shopping-card">
-                                        <a href="cart.html"><img src="assets/img/icon/cart.svg" alt=""></a>
+                                        <a href="cart.php"><img src="assets/img/icon/cart.svg" alt=""></a>
                                     </li>
-                                    <li><a href="login.html" class="btn header-btn sign_in-btn">Sign in</a></li>
+                                    <li><a href="login.php" class="btn header-btn sign_in-btn">Sign in</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -48,10 +48,10 @@
                             <ul id="navigation">    
                                 <li><a href="index.php" class="navbar-buttons-index">Home</a></li>
                                 <li><a href="categories.php" class="navbar-buttons-index">Categories</a></li>
-                                <li><a href="about.html" class="navbar-buttons-index">About</a></li>
+                                <li><a href="about.php" class="navbar-buttons-index">About</a></li>
                                 <!-- <li><a href="#">Pages</a> -->
                                     <!-- <ul class="submenu"> -->
-                                        <!-- <li><a href="login.html" class="navbar-buttons-index">Login</a></li> -->
+                                        <!-- <li><a href="login.php" class="navbar-buttons-index">Login</a></li> -->
                                         <!-- <li><a href="cart.html" class="navbar-buttons-index">Cart</a></li> -->
                                         <!-- <li><a href="checkout.html" class="navbar-buttons-index">Checkout</a></li> -->
                                         <!-- <li><a href="book-details.html" class="navbar-buttons-index">book Details</a></li> -->
@@ -59,7 +59,7 @@
                                         <!-- <li><a href="elements.html" class="navbar-buttons-index">Element</a></li> -->
                                     <!-- </ul> -->
                                 <!-- </li> -->
-                                <li><a href="contact.html" class="navbar-buttons-index">Contact</a></li>
+                                <li><a href="contact.php" class="navbar-buttons-index">Contact</a></li>
                             </ul>
                         </nav>
                     </div>

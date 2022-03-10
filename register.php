@@ -20,6 +20,8 @@
 	<link rel="stylesheet" href="assets/css/slick.css">
 	<link rel="stylesheet" href="assets/css/nice-select.css">
     <link rel="stylesheet" href="assets/css/style.css">
+
+    <link rel="stylesheet" href="mycss/mystyle.css">
 </head>
 <body>
     <!-- header end -->
@@ -53,8 +55,8 @@
                 </div>
                 <!-- form Footer -->
                 <div class="register-footer">
-                    <p> Already have an account? <a href="login.html"> Login</a> here</p>
-                    <button class="submit-btn3">Sign Up</button>
+                    <p> Already have an account? <a href="login.php"> Login</a> here</p>
+                    <button class="submit-btn3">Sign Up</button> 
                 </div>
             </div>
         </div>
