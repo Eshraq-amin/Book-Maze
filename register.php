@@ -1,3 +1,41 @@
+<?php
+session_start();
+
+include("connection.php");
+include("functions.php");
+
+if($_SERVER['REQUEST_METHOD'] == "POST")
+{
+    //something was posted
+    $user_name = $_POST['user_name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if(!empty($user_name)&&  !empty($password)&&  !empty($email) && !is_numeric($user_name))
+    {
+     
+        //save to database
+        $query = "insert into users (user_name,email,password) values ('$user_name','$email','$password')";
+        
+        mysqli_query($con, $query);
+
+        header("Location: login.php");
+        die;
+
+
+    }else
+    {
+        echo "Please enter valid information.";
+    }
+}
+
+
+?>
+
+
+
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -27,6 +65,8 @@
     <!-- header end -->
     <main class="login-bg">
         <!-- Register Area Start -->
+        <form method="post">
+
         <div class="register-form-area">
             <div class="register-form text-center">
                 <!-- Login Heading -->
@@ -38,20 +78,20 @@
                 <div class="input-box">
                     <div class="single-input-fields">
                         <label>Full name</label>
-                        <input type="text" placeholder="Enter full name">
+                        <input type="text" name="user_name" placeholder="Enter full name">
                     </div>
                     <div class="single-input-fields">
                         <label>Email Address</label>
-                        <input type="email" placeholder="Enter email address">
+                        <input type="email"  name="email" placeholder="Enter email address">
                     </div>
                     <div class="single-input-fields">
                         <label>Password</label>
-                        <input type="password" placeholder="Enter Password">
+                        <input type="password" name="password" placeholder="Enter Password">
                     </div>
-                    <div class="single-input-fields">
+                    <!-- <div class="single-input-fields">
                         <label>Confirm Password</label>
                         <input type="password" placeholder="Confirm Password">
-                    </div>
+                    </div> -->
                 </div>
                 <!-- form Footer -->
                 <div class="register-footer">
@@ -60,6 +100,7 @@
                 </div>
             </div>
         </div>
+</form>
         <!-- Register Area End -->
     </main>
 

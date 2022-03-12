@@ -210,24 +210,7 @@
             </section>
             <!--== End My Account Wrapper ==-->
 
-            <!--== Start News Letter Area Wrapper ==-->
-            <section class="news-letter-area section-bottom-space">
-                <div class="container">
-                    <div class="newsletter-content-wrap" data-bg-img="assets/img/blackbackground.jpeg">
-                        <div class="newsletter-content">
-                            <h2 class="title">Want to Connect with Us and Let Us Know Your Thoughts?</h2>
-                            <p>Send Us What You Have in Mind!</p>
-                            <div class="newsletter-form">
-                                <form>
-                                    <input type="email" class="form-control" placeholder="Email address">
-                                    <button class="btn-submit" type="submit"><i class="fa fa-arrow-circle-right fa-lg"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <!--== End News Letter Area Wrapper ==-->
+           
 
         </main>
 

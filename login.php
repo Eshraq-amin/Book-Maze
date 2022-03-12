@@ -1,3 +1,56 @@
+<?php
+session_start();
+
+include("connection.php");
+include("functions.php");
+
+if($_SERVER['REQUEST_METHOD'] == "POST")
+{
+    //something was posted
+    
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
+    if(!empty($password)&&  !empty($email))
+    {
+     
+        //read to database
+        $query = "select email,password from users where email = '$email' limit 1";
+        
+        $result = mysqli_query($con, $query);
+
+        if($result)
+        {
+            if($result && mysqli_num_rows($result) > 0)
+            {
+
+                $user_data = mysqli_fetch_assoc($result);
+                
+                if($user_data['password'] === $password)
+                {
+                    $_SESSION['email'] = $user_data['email'];
+                    header("Location: index.php");
+                    die;
+                }
+            }
+        }
+
+        
+
+        echo "Please enter valid information.";
+    }else
+    {
+        echo "Please enter valid information.";
+    }
+}
+
+
+?>
+
+
+
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
@@ -27,6 +80,8 @@
 
     <main class="login-bg">
         <!-- login Area Start -->
+        <form method="post">
+
         <div class="login-form-area">
             <div class="login-form">
                 <!-- Login Heading -->
@@ -57,6 +112,7 @@
                 </div>
             </div>
         </div>
+</form>
         <!-- login Area End -->
     </main>
 
