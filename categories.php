@@ -1,9 +1,14 @@
+<?php
+include("php_header.php");
+?>
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -26,7 +31,7 @@
 <body>
 <?php include 'include/topnav.php'; ?>
 <main>
-    <!-- Hero area Start-->
+    <!-- area Start-->
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -40,14 +45,14 @@
             </div>
         </div> 
     </div>
-    <!--  Hero area End -->
+    <!--  area End -->
     <!-- listing Area Start -->
     <div class="listing-area pt-50 pb-50">
         <div class="container">
             <div class="row">
                 <!--? Left content -->
                 <div class="col-xl-4 col-lg-4 col-md-6">
-                    <!-- Job Category Listing start -->
+                    <!-- Category Listing start -->
                     <div class="category-listing mb-50">
                         <!-- single one -->
                         <div class="single-listing">
@@ -56,26 +61,25 @@
                                 <div class="small-tittle mb-20">
                                     <h4>Filter by Genres</h4>
                                 </div>
-                                <label class="container">History
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Horror - Thriller
-                                    <input type="checkbox" checked="checked active">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Love Stories
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Science Fiction
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Biography
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
+
+                                <?php
+                                    if($book_genres){
+                                        foreach($book_genres as $genre){
+                                            $selected = array();
+                                            if(!empty($_POST['genres'])){
+                                                $selected = explode(",", $_POST['genres']);
+                                            }
+                                ?>
+                                            <label class="container">
+                                                <?php echo $genre['genre_name']; ?>
+                                                <input id="checkbox_g_<?php echo $genre['id']; ?>" <?php if(in_array($genre['id'], $selected)){ echo "checked"; } ?> onclick="executeSearch(this.id, this.value);" type="checkbox" value="<?php echo $genre['id']; ?>" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                <?php
+                                        }
+                                    }
+                                ?>
+
                             </div>
                             <!-- select-Categories End -->
 
@@ -86,13 +90,13 @@
                                 </div>
                                 <div class="widgets_inner">
                                     <div class="range_item">
-                                        <input type="text" class="js-range-slider" value="" />
+                                        <input onchange="executeSearchPrice(this.value);" type="text" class="js-range-slider" value="112,250" />
                                         <div class="d-flex align-items-center">
 
                                             <div class="price_value d-flex justify-content-center">
-                                                <input type="text" class="js-input-from" id="amount" readonly />
+                                                <input type="text" class="js-input-from" readonly />
                                                 <span>to</span>
-                                                <input type="text" class="js-input-to" id="amount" readonly />
+                                                <input type="text" class="js-input-to" readonly />
                                             </div>
                                         </div>
                                     </div>
@@ -100,46 +104,45 @@
                             </aside>
                             <!-- range end -->
 
-                            <!-- Select City items start -->
+                            <!-- Select items start -->
                             <div class="select-job-items2 mb-30">
                                 <div class="col-xl-12">
-                                    <select name="select2">
+                                    <select name="select2" onchange="executeSearchRated(this.value)">
                                         <option value="">Filter by Rating</option>
-                                        <option value="">5 Star Rating</option>
-                                        <option value="">4 Star Rating</option>
-                                        <option value="">3 Star Rating</option>
-                                        <option value="">2 Star Rating</option>
-                                        <option value="">1 Star Rating</option>
+                                        <option value="5" <?php if(isset($_POST['rated']) && $_POST['rated'] == "5"){ echo "selected"; }?> >5 Star Rating</option>
+                                        <option value="4" <?php if(isset($_POST['rated']) && $_POST['rated'] == "4"){ echo "selected"; }?>>4 Star Rating</option>
+                                        <option value="3" <?php if(isset($_POST['rated']) && $_POST['rated'] == "3"){ echo "selected"; }?>>3 Star Rating</option>
+                                        <option value="2" <?php if(isset($_POST['rated']) && $_POST['rated'] == "2"){ echo "selected"; }?>>2 Star Rating</option>
+                                        <option value="1" <?php if(isset($_POST['rated']) && $_POST['rated'] == "1"){ echo "selected"; }?>>1 Star Rating</option>
                                     </select>
                                 </div>
                             </div>
-                            <!--  Select City items End-->
+                            <!--  Select items End-->
 
                             <!-- select-Categories start -->
                             <div class="select-Categories pt-100 pb-60">
                                 <div class="small-tittle mb-20">
                                     <h4>Filter by Publisher</h4>
                                 </div>
-                                <label class="container">Green Publications
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Anondo Publications
-                                    <input type="checkbox" checked="checked active">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Rinku Publications
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Sheba Publications
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Red Publications
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
+                                
+                                <?php
+                                    if($book_publishers){
+                                        foreach($book_publishers as $publisher){
+                                            $selectedP = array();
+                                            if(!empty($_POST['publisher'])){
+                                                $selectedP = explode(",", $_POST['publisher']);
+                                            }
+                                ?>
+                                            <label class="container">
+                                                <?php echo $publisher['publisher_name']; ?>
+                                                <input id="checkbox_p_<?php echo $publisher['id']; ?>" <?php if(in_array($publisher['id'], $selectedP)){ echo "checked"; } ?> onclick="executeSearchP(this.id, this.value);" type="checkbox" value="<?php echo $publisher['id']; ?>" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                <?php
+                                        }
+                                    }
+                                ?>
+
                             </div>
                             <!-- select-Categories End -->
                             <!-- select-Categories start -->
@@ -147,31 +150,30 @@
                                 <div class="small-tittle mb-20">
                                     <h4>Filter by Author Name</h4>
                                 </div>
-                                <label class="container">Buster Hyman
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Phil Harmonic
-                                    <input type="checkbox" checked="checked active">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Cam L. Toe
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Otto Matic
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
-                                <label class="container">Juan Annatoo
-                                    <input type="checkbox">
-                                    <span class="checkmark"></span>
-                                </label>
+                                
+                                <?php
+                                    if($book_authors){
+                                        foreach($book_authors as $author){
+                                            $selectedA = array();
+                                            if(!empty($_POST['author'])){
+                                                $selectedA = explode(",", $_POST['author']);
+                                            }
+                                ?>
+                                            <label class="container">
+                                                <?php echo $author['author_name']; ?>
+                                                <input id="checkbox_a_<?php echo $author['id']; ?>" <?php if(in_array($author['id'], $selectedA)){ echo "checked"; } ?> onclick="executeSearchA(this.id, this.value);" type="checkbox" value="<?php echo $author['id']; ?>" />
+                                                <span class="checkmark"></span>
+                                            </label>
+                                <?php
+                                        }
+                                    }
+                                ?>
+
                             </div>
                             <!-- select-Categories End -->
                         </div>
                     </div>
-                    <!-- Job Category Listing End -->
+                    <!-- Category Listing End -->
                 </div>
                 <!--?  Right content -->
                 <div class="col-xl-8 col-lg-8 col-md-6">
@@ -192,342 +194,92 @@
                 </div>
                 <div class="best-selling p-0">
                     <div class="row">
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
+                        
+                        <?php
+                            if($books){
+                                foreach($books as $book){
+                        ?>
+                                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
+                                        <div class="properties pb-30">
+                                            <div class="properties-card">
+                                                <div class="properties-img">
+                                                    <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>" alt=""></a>
                                                 </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
+                                                <div class="properties-caption properties-caption2">
+                                                    <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                                    <p>
+                                                        <?php 
+                                                            if($book_authors){
+                                                                foreach($book_authors as $author){
+                                                                    if($author['id'] == $book['book_authors_id']){
+                                                                        echo $author['author_name'];
+                                                                    }
+                                                                }
+                                                            }
+                                                            echo $book['book_authors_id']; 
+                                                        ?>
+                                                    </p>
+                                                    
+                                                    <?php
+                                                    $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                                        
+                                                    $result1 = mysqli_query($con,$query1);
+                                                    $rate = 0;
+                                                    $totalOrders = 0;
+                                                    $average = 0;
+                                                    if($result1 && mysqli_num_rows($result1) > 0){
+                                                        
+                                                        while($row1 = $result1->fetch_assoc()) {
+                                                            $rate = $rate + $row1['given_rating'];
+                                                            $totalOrders = $totalOrders+1;
+                                                        }
+
+                                                    }
+
+                                                    if($totalOrders > 0){
+                                                        $average = $rate / $totalOrders;
+                                                    }
+                                                    ?>
+
+                                                    <div class="properties-footer d-flex justify-content-between align-items-center">
+                                                        <div class="review">
+                                                            <div class="rating">
+                                                            <?php
+                                                                for($i=1; $i<=5; $i++){
+                                                                    if($i <= $average){
+                                                            ?>
+                                                                        <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                            <?php
+                                                                    }else{
+                                                            ?>
+                                                                        <i class="fas fa-star" style="color:black;"></i>
+                                                            <?php
+                                                                    }        
+                                                                }
+                                                            ?>
+                                                        </div>
+                                                        <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
+                                                        </div>
+                                                        <div class="price">
+                                                            <span><?php echo "$" . $book['book_price']; ?></span>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>           
+                        <?php
+                                }
+                            }else{
+                        ?>
+                                <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
+                                No Book Found as Per Selected Filters!
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                            <div class="properties pb-30">
-                                <div class="properties-card">
-                                    <div class="properties-img">
-                                        <a href="book-details.html"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
-                                    </div>
-                                    <div class="properties-caption properties-caption2">
-                                        <h3><a href="book-details.html">Moon Dance</a></h3>
-                                        <p>J. R Rain</p>
-                                        <div class="properties-footer d-flex justify-content-between align-items-center">
-                                            <div class="review">
-                                                <div class="rating">
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star"></i>
-                                                    <i class="fas fa-star-half-alt"></i>
-                                                </div>
-                                                <p>(<span>120</span> Review)</p>
-                                            </div>
-                                            <div class="price">
-                                                <span>$50</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <?php        
+                            }
+                        ?>
+
                     </div>
                 </div>
                 <!-- button -->
@@ -542,27 +294,122 @@
         </div>
     </div>
 </div>
+
+<form id="searchForm" action="categories.php" method="POST">
+    <?php if(!empty($_POST['genres'])){ ?>
+        <input type="hidden" id="genres" name="genres" value="<?php echo $_POST['genres']; ?>" />
+    <?php }else{ ?>
+        <input type="hidden" id="genres" name="genres" value="" />
+    <?php } ?>
+
+    <?php if(!empty($_POST['priceRange'])){ ?>
+        <input type="hidden" id="priceRange" name="priceRange" value="<?php echo $_POST['priceRange']; ?>" />
+    <?php }else{ ?>
+        <input type="hidden" id="priceRange" name="priceRange" value="" />
+    <?php } ?>
+
+    <?php if(!empty($_POST['rated'])){ ?>
+        <input type="hidden" id="rated" name="rated" value="<?php echo $_POST['rated']; ?>" />
+    <?php }else{ ?>
+        <input type="hidden" id="rated" name="rated" value="" />
+    <?php } ?>
+
+    <?php if(!empty($_POST['publisher'])){ ?>
+        <input type="hidden" id="publisher" name="publisher" value="<?php echo $_POST['publisher']; ?>" />
+    <?php }else{ ?>
+        <input type="hidden" id="publisher" name="publisher" value="" />
+    <?php } ?>
+
+    <?php if(!empty($_POST['author'])){ ?>
+        <input type="hidden" id="author" name="author" value="<?php echo $_POST['author']; ?>" />
+    <?php }else{ ?>
+        <input type="hidden" id="author" name="author" value="" />
+    <?php } ?>
+    
+</form>
+
+<script type="text/javascript">
+    //For Genres
+    function executeSearch(id, value){
+        if($("#genres").val() != ""){
+
+            var splitedGenre = $("#genres").val().split(",");
+            
+            if($.inArray($("#"+id).val(), splitedGenre) !== -1){
+                splitedGenre = splitedGenre.filter(item => item !== $("#"+id).val());
+                $("#genres").val( splitedGenre );
+            }else{
+                var appendVal = $("#genres").val() + "," + value;
+                $("#genres").val( appendVal );
+            }
+
+        }else{
+            $("#genres").val(value);
+        }
+
+        $("#searchForm").submit();
+
+    }
+    //For Price
+    function executeSearchPrice(value){
+        $("#priceRange").val(value);
+        $("#searchForm").submit();
+    }
+    //For Rated
+    function executeSearchRated(value){
+        if(value != ""){
+            $("#rated").val(value);
+            $("#searchForm").submit();
+        }
+    }
+    //For Publishers
+    function executeSearchP(id, value){
+        if($("#publisher").val() != ""){
+
+            var splitedPublisher = $("#publisher").val().split(",");
+            
+            if($.inArray($("#"+id).val(), splitedPublisher) !== -1){
+                splitedPublisher = splitedPublisher.filter(item => item !== $("#"+id).val());
+                
+                $("#publisher").val( splitedPublisher );
+            }else{
+                var appendVal = $("#publisher").val() + "," + value;
+                $("#publisher").val( appendVal );
+            }
+
+        }else{
+            $("#publisher").val(value);
+        }
+
+        $("#searchForm").submit();
+
+    }
+    //For Authors
+    function executeSearchA(id, value){
+        if($("#author").val() != ""){
+
+            var splitedAuthor = $("#author").val().split(",");
+            
+            if($.inArray($("#"+id).val(), splitedAuthor) !== -1){
+                splitedAuthor = splitedAuthor.filter(item => item !== $("#"+id).val());
+                
+                $("#author").val( splitedAuthor );
+            }else{
+                var appendVal = $("#author").val() + "," + value;
+                $("#author").val( appendVal );
+            }
+
+        }else{
+            $("#author").val(value);
+        }
+
+        $("#searchForm").submit();
+
+    }
+
+</script>
 <!-- listing-area Area End -->
 
-<!-- Subscribe Area Start -->
-<!-- <section class="subscribe-area" >
-    <div class="container">
-        <div class="subscribe-caption text-center  subscribe-padding section-img2-bg" data-background="assets/img/gallery/section-bg1.jpg">
-            <div class="row justify-content-center">
-
-                <div class="col-xl-6 col-lg-8 col-md-9">
-                    <h3>Join Newsletter</h3>
-                    <p>Lorem started its journey with cast iron (CI) products in 1980. The initial main objective was to ensure pure water and affordable irrigation.</p>
-                    <form action="#">
-                        <input type="text" placeholder="Enter your email">
-                        <button class="subscribe-btn">Subscribe</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
-<!-- Subscribe Area End -->
 </main>
 <?php include 'include/footer.php'; ?>
 <!-- Scroll Up -->

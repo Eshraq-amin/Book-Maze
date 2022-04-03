@@ -1,9 +1,37 @@
+<?php
+
+if($_POST){
+    session_start();
+    //unset($_SESSION['books_cart']);
+    if(!isset($_SESSION['books_cart'])){
+        $_SESSION['books_cart'] = array();
+    }
+
+    if (array_key_exists($_POST['book_id'], $_SESSION['books_cart'])) {
+        $_SESSION['books_cart'][$_POST['book_id']]['book_quantity'] = $_SESSION['books_cart'][$_POST['book_id']]['book_quantity']+1;
+        $total_price = $_SESSION['books_cart'][$_POST['book_id']]['book_quantity'] * $_SESSION['books_cart'][$_POST['book_id']]['book_price'];
+    
+        $_SESSION['books_cart'][$_POST['book_id']]['total_price'] = $total_price;
+    }else{
+        $total_price = $_POST['book_price'] * 1;
+        $_SESSION['books_cart'][$_POST['book_id']] = array('book_id'=>$_POST['book_id'], 'book_price'=>$_POST['book_price'],'book_quantity'=>1,'total_price'=>$total_price,'book_poster'=>$_POST['book_poster'],'book_title'=>$_POST['book_title']);
+    }
+
+    header('Location: cart.php');
+    die();
+    //echo '<pre>';print_r($_SESSION['books_cart']);exit;
+}
+
+include("php_header.php");
+?>
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -36,26 +64,73 @@
                             <!-- Single -->
                             <div class="single-services d-flex align-items-center mb-0">
                                 <div class="features-img">
-                                    <img src="assets/img/gallery/best-books1.jpg" alt="">
+                                    <img src="<?php echo $bookDetails['book_poster']; ?>" alt="">
                                 </div>
                                 <div class="features-caption">
-                                    <h3>The Rage of Dragons</h3>
-                                    <p>By Evan Winter</p>
+                                    <h3><?php echo $bookDetails['book_title']; ?></h3>
+                                    <p>
+                                    <?php 
+                                        if($book_authors){
+                                            foreach($book_authors as $author){
+                                                if($author['id'] == $bookDetails['book_authors_id']){
+                                                    echo "By " . $author['author_name'];
+                                                }
+                                            }
+                                        }
+                                    ?>
+                                    </p>
                                     <div class="price">
-                                        <span>$50.00</span>
+                                        <span><?php echo "$" . $bookDetails['book_price']; ?></span>
                                     </div>
+
+                                    <?php
+                                    $query1 = "select * from books_rating WHERE book_id = '".$bookDetails['id']."'";
+                                                                        
+                                    $result1 = mysqli_query($con,$query1);
+                                    $rate = 0;
+                                    $totalOrders = 0;
+                                    $average = 0;
+                                    if($result1 && mysqli_num_rows($result1) > 0){
+                                        
+                                        while($row1 = $result1->fetch_assoc()) {
+                                            $rate = $rate + $row1['given_rating'];
+                                            $totalOrders = $totalOrders+1;
+                                        }
+
+                                    }
+
+                                    if($totalOrders > 0){
+                                        $average = $rate / $totalOrders;
+                                    }
+                                    
+                                    ?>
+                                    
                                     <div class="review">
                                         <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
+                                            <?php
+                                                for($i=1; $i<=5; $i++){
+                                                    if($i <= $average){
+                                            ?>
+                                                        <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                            <?php
+                                                    }else{
+                                            ?>
+                                                        <i class="fas fa-star"></i>
+                                            <?php
+                                                    }        
+                                                }
+                                            ?>
                                         </div>
-                                        <p>(120 Review)</p>
+                                        <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
                                     </div>
-                                    <a href="#" class="white-btn mr-10">Add to Cart</a>
-                                    
+
+                                    <form action="book-details.php" method="POST">
+                                        <input type="hidden" name="book_id" value="<?php echo $bookDetails['id']; ?>" />
+                                        <input type="hidden" name="book_price" value="<?php echo $bookDetails['book_price']; ?>" />
+                                        <input type="hidden" name="book_poster" value="<?php echo $bookDetails['book_poster']; ?>" />
+                                        <input type="hidden" name="book_title" value="<?php echo $bookDetails['book_title']; ?>" />
+                                        <button class="white-btn mr-10">Add to Cart</button>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -76,8 +151,6 @@
                             <div class="nav nav-tabs " id="nav-tab" role="tablist">
                                 <a class="nav-link active" id="nav-one-tab" data-bs-toggle="tab" href="#nav-one" role="tab" aria-controls="nav-one" aria-selected="true">Description</a>
                                 <a class="nav-link" id="nav-two-tab" data-bs-toggle="tab" href="#nav-two" role="tab" aria-controls="nav-two" aria-selected="false">Author</a>
-                                <a class="nav-link" id="nav-three-tab" data-bs-toggle="tab" href="#nav-three" role="tab" aria-controls="nav-three" aria-selected="false">Comments</a>
-                                <a class="nav-link" id="nav-four-tab" data-bs-toggle="tab" href="#nav-four" role="tab" aria-controls="nav-four" aria-selected="false">Review</a>
                             </div>
                         </nav>
                         <!--End Nav Button  -->
@@ -92,9 +165,7 @@
                     <!-- Tab 1 -->  
                     <div class="row">
                         <div class="offset-xl-1 col-lg-9">
-                            <p>Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a child’s painting set for her birthday and it was with this that she produced her first significant work, a half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly named ‘Hangover’ by Beryl’s husband and</p>
-
-                            <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a streamlined plan of cooking that is more efficient for one person creating less.</p>
+                            <p><?php echo $bookDetails['book_description']; ?></p>
                         </div>
                     </div>
                 </div>
@@ -102,9 +173,17 @@
                     <!-- Tab 2 -->
                     <div class="row">
                         <div class="offset-xl-1 col-lg-9">
-                            <p>Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a child’s painting set for her birthday and it was with this that she produced her first significant work, a half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly named ‘Hangover’ by Beryl’s husband and</p>
-
-                            <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a streamlined plan of cooking that is more efficient for one person creating less.</p>
+                            <p>
+                            <?php 
+                                if($book_authors){
+                                    foreach($book_authors as $author){
+                                        if($author['id'] == $bookDetails['book_authors_id']){
+                                            echo $author['author_description'];
+                                        }
+                                    }
+                                }
+                            ?>
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -143,24 +222,7 @@
     </section>
     <!-- Books review End -->
     <!-- Subscribe Area Start -->
-    <!-- <section class="subscribe-area" >
-        <div class="container">
-            <div class="subscribe-caption text-center  subscribe-padding section-img2-bg" data-background="assets/img/gallery/section-bg1.jpg">
-                <div class="row justify-content-center">
-                    
-                    <div class="col-xl-6 col-lg-8 col-md-9">
-                        <h3>Join Newsletter</h3>
-                        <p>Lorem started its journey with cast iron (CI) products in 1980. The initial main objective was to ensure pure water and affordable irrigation.</p>
-                        <form action="#">
-                            <input type="text" placeholder="Enter your email">
-                            <button class="subscribe-btn">Subscribe</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section> -->
-    <!-- Subscribe Area End -->
+    
 </main>
 <?php include 'include/footer.php'; ?>
 <!-- Scroll Up -->

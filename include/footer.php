@@ -12,7 +12,7 @@
                              </div>
                              <div class="footer-tittle">
                                  <div class="footer-pera">
-                                     <p>Get the breathing space now, and we’ll extend your term at the other end year for go.</p>
+                                     <p>Buy your desired books from our wide collection range.</p>
                                  </div>
                              </div>
                              <!-- social -->
@@ -34,7 +34,7 @@
                              <li><a href="#">Horror - Thriller</a></li>
                              <li><a href="#">Love Stories</a></li>
                              <li><a href="#">Science Fiction</a></li>
-                             <li><a href="#">Business</a></li>
+                             <li><a href="#">Biography</a></li>
                          </ul>
                      </div>
                  </div>
@@ -42,9 +42,9 @@
              <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
                  <div class="single-footer-caption mb-50">
                      <div class="footer-tittle">
-                         <h4>&nbsp;</h4>
+                         <h4>Coming Soon!</h4>
                          <ul>
-                            <li><a href="#">Biography</a></li>
+                            <li><a href="#">Business</a></li>
                             <li><a href="#">Astrology</a></li>
                             <li><a href="#">Digital Marketing</a></li>
                             <li><a href="#">Software Development</a></li>
@@ -60,8 +60,7 @@
                      <ul class="mb-20">
                          <li><a href="#">Home</a></li>
                          <li><a href="#">About Us</a></li>
-                         <li><a href="#">FAQs</a></li>
-                         <li><a href="#">Blog</a></li>
+                         <li><a href="#">Categories</a></li>
                          <li><a href="#">Contact</a></li>
                      </ul>
                  </div>

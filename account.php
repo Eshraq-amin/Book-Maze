@@ -1,9 +1,53 @@
+<?php
+include("php_header.php");
+
+if($_POST){
+    
+    if(!isset($_SESSION)){
+        session_start();
+    }
+
+    if(isset($_POST['info'])){
+        $query = "UPDATE users SET fname = '".$_POST['fname']."',lname = '".$_POST['lname']."',user_name = '".$_POST['user_name']."',email = '".$_POST['email']."',address = '".$_POST['address']."' WHERE id = '".$_SESSION['loggedIn_User_Id']."'";
+        mysqli_query($con,$query);
+
+        header('Location: account.php?info=changed');
+        exit;
+    }
+
+    if($_POST['new_pwd'] == $_POST['confirm_pwd']){
+        $query = "select * from users WHERE id = '".$_SESSION['loggedIn_User_Id']."'";
+        $result = mysqli_query($con,$query);
+        $oldPWD = "";
+        if($result && mysqli_num_rows($result) > 0){
+            while($row = $result->fetch_assoc()) {
+                $oldPWD = $row['password'];
+            }
+        }
+
+        if($_POST['current_pwd'] == $oldPWD){
+            $query = "UPDATE users SET password = '".$_POST['new_pwd']."' WHERE id = '".$_SESSION['loggedIn_User_Id']."'";
+            mysqli_query($con,$query);
+
+            header('Location: account.php?pwd=changed');
+            exit;
+        }else{
+            header('Location: account.php?pwd=incorrectOld');
+            exit;    
+        }
+    }else{
+        header('Location: account.php?pwd=mismatched');
+        exit;
+    }
+}
+?>
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -23,6 +67,18 @@
 
     <link rel="stylesheet" href="mycss/mystyle.css">
     
+    <style>
+        .rating > i:hover{
+            color:yellow;
+        }
+        .checked {
+            color : yellow;
+        }
+        .unchecked {
+            color : black;
+        }
+    </style>
+
     </head>    
 
 <body>
@@ -70,47 +126,67 @@
                                                 <button class="account-nav nav-link nav-link-100" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button" role="tab" aria-controls="orders" aria-selected="false"> Order History</button>
                                                 <button class="account-nav nav-link nav-link-100" id="changepassword-tab" data-bs-toggle="tab" data-bs-target="#changepassword" type="button" role="tab" aria-controls="payment-method" aria-selected="false">Change Password</button>
                                                 <button class="account-nav nav-link nav-link-100" id="payment-method-tab" data-bs-toggle="tab" data-bs-target="#payment-method" type="button" role="tab" aria-controls="address-edit" aria-selected="false">Payment Options  </button>
-                                                <button class="account-nav nav-link nav-link-100" onclick="window.location.href='login.html'" type="button">Logout</button>
+                                                <button class="account-nav nav-link nav-link-100" onclick="window.location.href='logout.php'" type="button">Logout</button>
                                             </div>
                                         </nav>
                                     </div>
                                     <div class="col-lg-9 col-md-8">
                                         <div class="tab-content" id="nav-tabContent">
                                             <!-- ACCOUNT OVERVIEW -->
+                                            <?php
+                                                $query = "select * from users WHERE id = '".$_SESSION['loggedIn_User_Id']."'";
+                                                $result = mysqli_query($con,$query);
+
+                                                $fname = "";
+                                                $lname = "";
+                                                $user_name = "";
+                                                $email = "";
+                                                $address = "";
+                                                if($result && mysqli_num_rows($result) > 0){
+                                                    while($row = $result->fetch_assoc()) {
+                                                        $fname = $row['fname'];
+                                                        $lname = $row['lname'];
+                                                        $user_name  = $row['user_name'];
+                                                        $email = $row['email'];
+                                                        $address = $row['address'];
+                                                    }
+                                                }
+                                            ?>
                                             <div class="tab-pane fade show active" id="account-info" role="tabpanel" aria-labelledby="account-info-tab">
                                                 <div class="myaccount-content">
                                                     <h3>Account Details</h3>
                                                     <div class="account-details-form">
-                                                        <form action="#">
+                                                        <form action="account.php" method="POST">
+                                                            <input type="hidden" name="info" />
                                                             <div class="row">
                                                                 <div class="col-lg-6">
                                                                     <div class="single-input-item">
                                                                         <label for="first-name" class="required">First Name</label>
-                                                                        <input type="text" id="first-name" placeholder="John"/>
+                                                                        <input value="<?php echo $fname; ?>" type="text" id="first-name" name="fname" placeholder="John" required />
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6">
                                                                     <div class="single-input-item">
                                                                         <label for="last-name" class="required">Last Name</label>
-                                                                        <input type="text" id="last-name" placeholder="Doe"/>
+                                                                        <input value="<?php echo $lname; ?>" type="text" id="last-name" name="lname" placeholder="Doe" required />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="single-input-item">
                                                                 <label for="display-name" class="required">Display Name</label>
-                                                                <input type="text" id="display-name" placeholder="John Doe"/>
+                                                                <input value="<?php echo $user_name; ?>" type="text" id="display-name" name="user_name" placeholder="John Doe" required />
                                                             </div>
                                                             <div class="single-input-item">
                                                                 <label for="email" class="required">Email Address</label>
-                                                                <input type="email" id="email" placeholder="Johndoe@gmail.com"/>
+                                                                <input value="<?php echo $email; ?>" type="email" id="email" name="email" placeholder="Johndoe@gmail.com" required/>
                                                             </div>
 
                                                             <div class="single-input-item">
                                                                 <label for="shipping-address" class="required"> Shipping Address</label>
-                                                                <input type="text" id="shipping-address" placeholder="28185 Ridgecove Ct SRancho Palos Verdes, California"/>
+                                                                <input value="<?php echo $address; ?>" type="text" id="shipping-address" name="address" placeholder="28185 Ridgecove Ct SRancho Palos Verdes, California" required />
                                                             </div>
                                                             <div class="single-input-item">
-                                                                <button class="check-btn sqr-btn">Save Changes</button>
+                                                                <button type="submit" class="check-btn sqr-btn">Save Changes</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -130,27 +206,74 @@
                                                                     <th>Date</th>
                                                                     <th>Status</th>
                                                                     <th>Total</th>
+                                                                    <th>Rate Order</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>12/01/2022</td>
-                                                                    <td>Pending</td>
-                                                                    <td>$1000</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>2</td>
-                                                                    <td>13/01/2022</td>
-                                                                    <td>Delivered</td>
-                                                                    <td>$1500</td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>3</td>
-                                                                    <td>19/01/2022</td>
-                                                                    <td>Delivered</td>
-                                                                    <td>$227</td>
-                                                                </tr>
+                                                                
+                                                            <?php
+                                                                $query = "select * from orders WHERE customer_id = '".$_SESSION['loggedIn_User_Id']."'";
+                                                                $result = mysqli_query($con,$query);
+                                                                if($result && mysqli_num_rows($result) > 0){
+                                                            
+                                                                    while($row = $result->fetch_assoc()) {
+
+                                                                        $query1 = "select * from books_rating WHERE order_id = '".$row['id']."' LIMIT 1";
+                                                                        
+                                                                        $result1 = mysqli_query($con,$query1);
+                                                                        $rate = 0;
+                                                                        $rated = "0";
+                                                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                                                            
+                                                                            while($row1 = $result1->fetch_assoc()) {
+                                                                                $rate = $row1['given_rating'];
+                                                                                $rated = "1";
+                                                                            }
+
+                                                                        }
+                                                            ?>
+                                                                        <tr style="background:black;">
+                                                                            <td><?php echo $row['id']; ?></td>
+                                                                            <td><?php echo $row['created']; ?></td>
+                                                                            <td><?php echo $row['status']; ?></td>
+                                                                            <td><?php echo "$".$row['total_amount']; ?></td>
+
+                                                                            <td>
+                                                                            <?php if($row['status'] == "Completed" && $rated == 0){ ?>
+                                                                                <div class="review">
+                                                                                    <div class="rating">
+                                                                                        <i onclick="rateOrder('<?php echo $row['id']?>', '1')" class="fas fa-star"></i>
+                                                                                        <i onclick="rateOrder('<?php echo $row['id']?>', '2')" class="fas fa-star"></i>
+                                                                                        <i onclick="rateOrder('<?php echo $row['id']?>', '3')" class="fas fa-star"></i>
+                                                                                        <i onclick="rateOrder('<?php echo $row['id']?>', '4')" class="fas fa-star"></i>
+                                                                                        <i onclick="rateOrder('<?php echo $row['id']?>', '5')" class="fas fa-star"></i>
+                                                                                    </div>
+                                                                                </div>
+                                                                            <?php }else if($row['status'] == "Completed" && $rated == 1){ ?>
+                                                                                <div class="rating">
+                                                                                    <?php
+                                                                                        for($i=1; $i<=5; $i++){
+                                                                                            if($i <= $rate){
+                                                                                    ?>
+                                                                                                <i class="fas fa-star checked"></i>          
+                                                                                    <?php
+                                                                                            }else{
+                                                                                    ?>
+                                                                                                <i class="fas fa-star"></i>
+                                                                                    <?php
+                                                                                            }        
+                                                                                        }
+                                                                                    ?>
+                                                                                </div>
+                                                                            <?php } ?>
+                                                                            </td>
+                                                                        </tr>
+                                                            <?php
+                                                                    }
+                                                                    
+                                                                }
+                                                            ?>
+                                                                
                                                             </tbody>
                                                         </table>
                                                     </div>
@@ -164,27 +287,27 @@
                                                 <div class="myaccount-content">
                                                     <h3> Change Your Password</h3>
                                                     <div class="account-details-form">
-                                                        <form action="#">
+                                                        <form id="pwd" action="account.php" method="POST">
                                                             <div class="single-input-item">
                                                                 <label for="current-pwd" class="required">Current Password</label>
-                                                                <input type="password" id="current-pwd" />
+                                                                <input type="password" id="current_pwd" name="current_pwd" required />
                                                             </div>
                                                             <div class="row">
                                                                 <div class="col-lg-6">
                                                                     <div class="single-input-item">
                                                                         <label for="new-pwd" class="required">New Password</label>
-                                                                        <input type="password" id="new-pwd" />
+                                                                        <input type="password" id="new_pwd" name="new_pwd" required />
                                                                     </div>
                                                                 </div>
                                                                 <div class="col-lg-6">
                                                                     <div class="single-input-item">
                                                                         <label for="confirm-pwd" class="required">Confirm Password</label>
-                                                                        <input type="password" id="confirm-pwd" />
+                                                                        <input type="password" id="confirm_pwd" name="confirm_pwd" required />
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                             <div class="single-input-item">
-                                                                <button class="check-btn sqr-btn">Save Changes</button>
+                                                                <button type="submit" class="check-btn sqr-btn">Save Changes</button>
                                                             </div>
                                                         </form>
                                                     </div>
@@ -243,6 +366,38 @@
     <!-- Custom Main JS -->
     <script src="./assets/js/main.js"></script>
 
+    <script type="text/javascript">
+        function rateOrder(orderId, ratingStars){
+            window.location.href = "rating.php?order_id="+orderId+"&&givenStars="+ratingStars;
+        }
+
+        window.onload = function(){
+            <?php
+                if(isset($_REQUEST['order_history'])){
+            ?>
+                    $("#orders-tab").click();
+            <?php        
+                }else if(isset($_REQUEST['pwd'])){
+            ?>
+                    var message = '<?php echo $_REQUEST['pwd']?>';
+                    $("#changepassword-tab").click();
+                    if(message == "mismatched"){
+                        alert('New and Confirm Password should be same!. Please try again.');
+                    }else if(message == 'incorrectOld'){
+                        alert('You entered Incorrect Old Password. Please try again.');
+                    }else if(message == 'changed'){
+                        alert('Password Changed Successfult. Click Ok for Logout and Login again Process!...');
+                        window.location.href = 'logout.php';
+                    }
+            <?php
+                }else if(isset($_REQUEST['info'])){
+            ?>
+                    alert('Account Info Updated Successfully!');
+            <?php
+                }
+            ?>
+        }
+    </script>
 </body>
 
 </html>

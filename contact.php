@@ -1,9 +1,15 @@
+<?php
+include("php_header.php");
+?>
+
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -26,7 +32,7 @@
 <body>
     <?php include 'include/topnav.php'; ?>
 <main>
-    <!-- Hero area Start-->
+    <!--area Start-->
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -40,8 +46,8 @@
             </div>
         </div> 
     </div>
-    <!--  Hero area End -->
-    <!-- Hero Area End-->
+    <!--area End -->
+
     <!--?  Contact Area start  -->
     <section class="contact-section">
         <div class="container">

@@ -1,9 +1,14 @@
+<?php
+include("php_header.php");
+?>
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -53,10 +58,10 @@
                 <div class="offset-xl-1 col-xl-9">
                    <div class="about-pera">
                     <p>
-                        Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a child’s painting set for her birthday and it was with this that she produced her first significant work, a half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly named ‘Hangover’ by Beryl’s husband and
-
+                    Lorem ipsum dolor sit amet. Aut placeat alias eos minima mollitia ut ratione ipsam eos blanditiis animi ut voluptatem sint. Quo animi harum ad tempora modi est voluptates facilis eum officiis omnis ea recusandae necessitatibus? Hic maxime voluptatibus et pariatur omnis et voluptas obcaecati sed possimus quia. Et obcaecati suscipit vel asperiores quas est sunt placeat nam totam quaerat.
                     </p>
-                    <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a streamlined plan of cooking that is more efficient for one person creating less.</p>
+                    <p>Vel dolor totam et suscipit eveniet est saepe voluptas hic pariatur vero aut cumque eius aut aliquam delectus. Id facere excepturi aut quibusdam labore non accusantium iusto.</p>
+                    <p>Qui excepturi commodi et ratione debitis sed velit nisi eum repellendus nemo ut velit velit ut dignissimos repellat. Eos maiores dolorem sit voluptatum enim qui aspernatur fuga in asperiores repellendus.</p>
                 </div>
             </div>
         </div>
@@ -69,10 +74,10 @@
             <div class="offset-xl-1 col-xl-9">
                <div class="about-pera p-0">
                 <p>
-                    Beryl Cook is one of Britain’s most talented and amusing artists .Beryl’s pictures feature women of all shapes and sizes enjoying themselves .Born between the two world wars, Beryl Cook eventually left Kendrick School in Reading at the age of 15, where she went to secretarial school and then into an insurance office. After moving to London and then Hampton, she eventually married her next door neighbour from Reading, John Cook. He was an officer in the Merchant Navy and after he left the sea in 1956, they bought a pub for a year before John took a job in Southern Rhodesia with a motor company. Beryl bought their young son a box of watercolours, and when showing him how to use it, she decided that she herself quite enjoyed painting. John subsequently bought her a child’s painting set for her birthday and it was with this that she produced her first significant work, a half-length portrait of a dark-skinned lady with a vacant expression and large drooping breasts. It was aptly named ‘Hangover’ by Beryl’s husband and
-
+                Lorem ipsum dolor sit amet. Aut placeat alias eos minima mollitia ut ratione ipsam eos blanditiis animi ut voluptatem sint. Quo animi harum ad tempora modi est voluptates facilis eum officiis omnis ea recusandae necessitatibus? Hic maxime voluptatibus et pariatur omnis et voluptas obcaecati sed possimus quia. Et obcaecati suscipit vel asperiores quas est sunt placeat nam totam quaerat.
                 </p>
-                <p>It is often frustrating to attempt to plan meals that are designed for one. Despite this fact, we are seeing more and more recipe books and Internet websites that are dedicated to the act of cooking for one. Divorce and the death of spouses or grown children leaving for college are all reasons that someone accustomed to cooking for more than one would suddenly need to learn how to adjust all the cooking practices utilized before into a streamlined plan of cooking that is more efficient for one person creating less.</p>
+                <p>Vel dolor totam et suscipit eveniet est saepe voluptas hic pariatur vero aut cumque eius aut aliquam delectus. Id facere excepturi aut quibusdam labore non accusantium iusto.</p>
+                <p>Qui excepturi commodi et ratione debitis sed velit nisi eum repellendus nemo ut velit velit ut dignissimos repellat. Eos maiores dolorem sit voluptatum enim qui aspernatur fuga in asperiores repellendus.</p>
             </div>
         </div>
     </div>

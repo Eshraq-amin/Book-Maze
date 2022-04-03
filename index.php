@@ -1,11 +1,5 @@
 <?php
-session_start();
-
-include("connection.php");
-include("functions.php");
-
-$user_data = check_login($con);
-
+include("php_header.php");
 
 ?>
 
@@ -16,7 +10,7 @@ $user_data = check_login($con);
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -106,195 +100,82 @@ $user_data = check_login($con);
             <div class="row">
                 <div class="col-xl-12">
                     <div class="selling-active">
-                        <!-- Single -->
-                        <div class="properties pb-20">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/book1.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption">
-                                   <h3><a href="book-details.php">Six Crimson Cranes</a></h3>
-                                   <p>Elizabeth Lim</p>
-                                   <div class="properties-footer d-flex justify-content-between align-items-center">
-                                    <div class="review">
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
+                        
+                        <?php
+                        if($bestSellingBooks){
+                            foreach($bestSellingBooks as $book){
+                        ?>
+                                <div class="properties pb-20">
+                                    <div class="properties-card">
+                                        <div class="properties-img">
+                                            <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>" alt=""></a>
                                         </div>
-                                        <p>(<span>120</span> Review)</p>
+                                        <div class="properties-caption">
+                                        <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                        <p>
+                                        <?php 
+                                            if($book_authors){
+                                                foreach($book_authors as $author){
+                                                    if($author['id'] == $book['book_authors_id']){
+                                                        echo "By " . $author['author_name'];
+                                                    }
+                                                }
+                                            }
+                                        ?>
+                                        </p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+
+                                        <div class="properties-footer d-flex justify-content-between align-items-center">
+                                            <div class="review">
+                                                <div class="rating">
+                                                    <?php
+                                                        for($i=1; $i<=5; $i++){
+                                                            if($i <= $average){
+                                                    ?>
+                                                                <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                    <?php
+                                                            }else{
+                                                    ?>
+                                                                <i class="fas fa-star"></i>
+                                                    <?php
+                                                            }        
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
+                                            </div>
+                                            <div class="price">
+                                                <span><?php echo "$" . $book['book_price']; ?></span>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="price">
-                                        <span>RM50</span>
-                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <!-- Single -->
-                    <div class="properties pb-20">
-                        <div class="properties-card">
-                            <div class="properties-img">
-                                <a href="book-details.php"><img src="assets/img/gallery/book2.jpg" alt=""></a>
-                            </div>
-                            <div class="properties-caption">
-                               <h3><a href="book-details.php">Norse Mythology</a></h3>
-                               <p>Neil Gaiman</p>
-                               <div class="properties-footer d-flex justify-content-between align-items-center">
-                                <div class="review">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <p>(<span>120</span> Review)</p>
-                                </div>
-                                <div class="price">
-                                    <span>RM50</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Single -->
-                <div class="properties pb-20">
-                    <div class="properties-card">
-                        <div class="properties-img">
-                            <a href="book-details.php"><img src="assets/img/gallery/book3.jpg" alt=""></a>
-                        </div>
-                        <div class="properties-caption">
-                           <h3><a href="book-details.php">A Deadly Education</a></h3>
-                           <p>Naomi Novik</p>
-                           <div class="properties-footer d-flex justify-content-between align-items-center">
-                            <div class="review">
-                                <div class="rating">
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star"></i>
-                                    <i class="fas fa-star-half-alt"></i>
-                                </div>
-                                <p>(<span>120</span> Review)</p>
-                            </div>
-                            <div class="price">
-                                <span>$50</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Single -->
-            <div class="properties pb-20">
-                <div class="properties-card">
-                    <div class="properties-img">
-                        <a href="book-details.php"><img src="assets/img/gallery/book4.jpg" alt=""></a>
-                    </div>
-                    <div class="properties-caption">
-                       <h3><a href="book-details.php">The Song  Achilles</a></h3>
-                       <p>Madeline Miller</p>
-                       <div class="properties-footer d-flex justify-content-between align-items-center">
-                        <div class="review">
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                            <p>(<span>120</span> Review)</p>
-                        </div>
-                        <div class="price">
-                            <span>RM50</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Single -->
-        <div class="properties pb-20">
-            <div class="properties-card">
-                <div class="properties-img">
-                    <a href="book-details.php"><img src="assets/img/gallery/book5.jpg" alt=""></a>
-                </div>
-                <div class="properties-caption">
-                   <h3><a href="book-details.php">No Rules Rules</a></h3>
-                   <p>Erin Meyer &<br>Reed Hastings</p>
-                   <div class="properties-footer d-flex justify-content-between align-items-center">
-                    <div class="review">
-                        <div class="rating">
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star"></i>
-                            <i class="fas fa-star-half-alt"></i>
-                        </div>
-                        <p>(<span>120</span> Review)</p>
-                    </div>
-                    <div class="price">
-                        <span>RM50</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Single -->
-    <div class="properties pb-20">
-        <div class="properties-card">
-            <div class="properties-img">
-                <a href="book-details.php"><img src="assets/img/gallery/book6.jpg" alt=""></a>
-            </div>
-            <div class="properties-caption">
-               <h3><a href="book-details.php">The Guest Cat</a></h3>
-               <p>Takashi Hiraide</p>
-               <div class="properties-footer d-flex justify-content-between align-items-center">
-                <div class="review">
-                    <div class="rating">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star-half-alt"></i>
-                    </div>
-                    <p>(<span>120</span> Review)</p>
-                </div>
-                <div class="price">
-                    <span>RM50</span>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Single -->
-<div class="properties pb-20">
-    <div class="properties-card">
-        <div class="properties-img">
-            <a href="book-details.php"><img src="assets/img/gallery/book7.jpg" alt=""></a>
-        </div>
-        <div class="properties-caption">
-           <h3><a href="book-details.php">The Rose & The Dagger</a></h3>
-           <p>Renee Ahdieh</p>
-           <div class="properties-footer d-flex justify-content-between align-items-center">
-            <div class="review">
-                <div class="rating">
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star"></i>
-                    <i class="fas fa-star-half-alt"></i>
-                </div>
-                <p>(<span>120</span> Review)</p>
-            </div>
-            <div class="price">
-                <span>RM50</span>
-            </div>
-        </div>
-    </div>
-</div>
-</div>
+                        <?php        
+                            }
+                        }
+                        ?>
+
 </div>
 </div>
 </div>
@@ -319,55 +200,80 @@ $user_data = check_login($con);
                     <div class="col-xl-12">
                         <div class="services-active">
                             <!-- Single -->
-                            <div class="single-services d-flex align-items-center">
-                                <div class="features-img">
-                                    <img src="assets/img/gallery/best-books1.jpg" alt="">
-                                </div>
-                                <div class="features-caption">
-                                    <img src="assets/img/icon/logo.svg" alt="">
-                                    <h3>Why We Can't Sleep</h3>
-                                    <p>By Ada Calhoun</p>
-                                    <div class="price">
-                                        <span>RM50.00</span>
+                            <?php
+                            if($featuredBooksThisWeek){
+                                foreach($featuredBooksThisWeek as $book){
+                            ?>
+                                <div class="single-services d-flex align-items-center">
+                                    <div class="features-img">
+                                        <img src="<?php echo $book['book_poster']; ?>" alt="">
                                     </div>
-                                    <div class="review">
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
+                                    <div class="features-caption">
+                                        <img src="assets/img/icon/logo.svg" alt="">
+                                        <h3><?php echo $book['book_title']; ?></h3>
+                                        <p>
+                                            <?php 
+                                                if($book_authors){
+                                                    foreach($book_authors as $author){
+                                                        if($author['id'] == $book['book_authors_id']){
+                                                            echo $author['author_name'];
+                                                        }
+                                                    }
+                                                }
+                                                echo $book['book_authors_id']; 
+                                            ?>    
+                                        </p>
+                                        <div class="price">
+                                            <span><?php echo "$" . $book['book_price']; ?></span>
                                         </div>
-                                        <p>(120 Review)</p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+
+                                        <div class="review">
+                                        <div class="rating">
+                                            <?php
+                                                for($i=1; $i<=5; $i++){
+                                                    if($i <= $average){
+                                            ?>
+                                                        <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                            <?php
+                                                    }else{
+                                            ?>
+                                                        <i class="fas fa-star"></i>
+                                            <?php
+                                                    }        
+                                                }
+                                            ?>
+                                        </div>
+                                        <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
+                                        </div>
+                                        <a href="book-details.php?book_id=<?php echo $book['id']; ?>" class="border-btn">View Details</a>
                                     </div>
-                                    <a href="book-details.php" class="border-btn">View Details</a>
                                 </div>
-                            </div>
+                            <?php
+                                }
+                            }
+                            ?>
                             <!-- Single -->
-                            <div class="single-services d-flex align-items-center">
-                                <div class="features-img">
-                                    <img src="assets/img/gallery/best-books2.jpg" alt="">
-                                </div>
-                                <div class="features-caption">
-                                    <img src="assets/img/icon/logo.svg" alt="">
-                                    <h3>The Other People</h3>
-                                    <p>By CJ Tudorr</p>
-                                    <div class="price">
-                                        <span>RM50.00</span>
-                                    </div>
-                                    <div class="review">
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </div>
-                                        <p>(120 Review)</p>
-                                    </div>
-                                    <a href="book-details.php" class="border-btn">View Details</a>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -399,10 +305,11 @@ $user_data = check_login($con);
                     <nav>
                         <div class="nav nav-tabs" id="nav-tab" role="tablist">
                             <a class="nav-link active" id="nav-one-tab" data-bs-toggle="tab" href="#nav-one" role="tab" aria-controls="nav-one" aria-selected="true">All</a>
-                            <a class="nav-link" id="nav-two-tab" data-bs-toggle="tab" href="#nav-two" role="tab" aria-controls="nav-two" aria-selected="false">Horror</a>
-                            <a class="nav-link" id="nav-three-tab" data-bs-toggle="tab" href="#nav-three" role="tab" aria-controls="nav-three" aria-selected="false">Thriller</a>
-                            <a class="nav-link" id="nav-four-tab" data-bs-toggle="tab" href="#nav-four" role="tab" aria-controls="nav-four" aria-selected="false">Science Fiction</a>
-                            <a class="nav-link" id="nav-five-tab" data-bs-toggle="tab" href="#nav-five" role="tab" aria-controls="nav-five" aria-selected="false">History</a>
+                            <a class="nav-link" id="nav-two-tab" data-bs-toggle="tab" href="#nav-two" role="tab" aria-controls="nav-two" aria-selected="false">History</a>
+                            <a class="nav-link" id="nav-three-tab" data-bs-toggle="tab" href="#nav-three" role="tab" aria-controls="nav-three" aria-selected="false">Horror</a>
+                            <a class="nav-link" id="nav-four-tab" data-bs-toggle="tab" href="#nav-four" role="tab" aria-controls="nav-four" aria-selected="false">Love</a>
+                            <a class="nav-link" id="nav-five-tab" data-bs-toggle="tab" href="#nav-five" role="tab" aria-controls="nav-five" aria-selected="false">Science</a>
+                            <a class="nav-link" id="nav-six-tab" data-bs-toggle="tab" href="#nav-six" role="tab" aria-controls="nav-six" aria-selected="false">Biography</a>
                         </div>
                     </nav>
                     <!--End Nav Button  -->
@@ -416,866 +323,505 @@ $user_data = check_login($con);
             <div class="tab-pane fade show active" id="nav-one" role="tabpanel" aria-labelledby="nav-one-tab">
                 <!-- Tab 1 -->  
                 <div class="row">
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
-                                    <p>Saba Tahir</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                    <?php
+                    if($latestPublished_all){
+                        foreach($latestPublished_all as $book){
+                    ?>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="properties pb-30">
+                                <div class="properties-card">
+                                    <div class="properties-img">
+                                        <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>"</a>
+                                    </div>
+                                    <div class="properties-caption properties-caption2">
+                                        <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                        <p>
+                                            <?php 
+                                                if($book_authors){
+                                                    foreach($book_authors as $author){
+                                                        if($author['id'] == $book['book_authors_id']){
+                                                            echo $author['author_name'];
+                                                        }
+                                                    }
+                                                }
+                                                echo $book['book_authors_id']; 
+                                            ?>
+                                        </p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+
+                                        <div class="properties-footer d-flex justify-content-between align-items-center">
+                                            <div class="review">
+                                                <div class="rating">
+                                                    <?php
+                                                        for($i=1; $i<=5; $i++){
+                                                            if($i <= $average){
+                                                    ?>
+                                                                <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                    <?php
+                                                            }else{
+                                                    ?>
+                                                                <i class="fas fa-star"></i>
+                                                    <?php
+                                                            }        
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
                                             </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
+                                            <div class="price">
+                                                <span><?php echo "$" . $book['book_price']; ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Maid</a></h3>
-                                    <p>Nita Prose</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
-                                    <p>Dr. Mahatir Bin Mohamad</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
-                                    <p>JO Browning Wroe</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
-                                    <p>Emily Victoria</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
-                                    <p>Leslie Vedder</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                        }
+                    }
+                    ?>
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-two" role="tabpanel" aria-labelledby="nav-two-tab">
                 <!-- Tab 2 -->
                 <div class="row">
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling1.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Star Outside My Window</a></h3>
-                                    <p>Onjali Q Rauf</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                    
+                    <?php
+                    if($latestPublished_history){
+                        foreach($latestPublished_history as $book){
+                    ?>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="properties pb-30">
+                                <div class="properties-card">
+                                    <div class="properties-img">
+                                        <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>"</a>
+                                    </div>
+                                    <div class="properties-caption properties-caption2">
+                                        <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                        <p>
+                                            <?php 
+                                                if($book_authors){
+                                                    foreach($book_authors as $author){
+                                                        if($author['id'] == $book['book_authors_id']){
+                                                            echo $author['author_name'];
+                                                        }
+                                                    }
+                                                }
+                                                echo $book['book_authors_id']; 
+                                            ?>
+                                        </p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+
+                                        <div class="properties-footer d-flex justify-content-between align-items-center">
+                                            <div class="review">
+                                                <div class="rating">
+                                                    <?php
+                                                        for($i=1; $i<=5; $i++){
+                                                            if($i <= $average){
+                                                    ?>
+                                                                <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                    <?php
+                                                            }else{
+                                                    ?>
+                                                                <i class="fas fa-star"></i>
+                                                    <?php
+                                                            }        
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
                                             </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
+                                            <div class="price">
+                                                <span><?php echo "$" . $book['book_price']; ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling3.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">I Must Betray You</a></h3>
-                                    <p>Ruta Sepetys</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling5.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Paris Bookseller</a></h3>
-                                    <p>Kerri Maher</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
-                                    <p>Saba Tahir</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Maid</a></h3>
-                                    <p>Nita Prose</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
-                                    <p>Dr Mahatir Bin Mohamad</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                    
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-three" role="tabpanel" aria-labelledby="nav-three-tab">
                 <!-- Tab 3 -->
                 <div class="row">
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
-                                    <p>Saba Tahir</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                    
+                    <?php
+                    if($latestPublished_horror){
+                        foreach($latestPublished_horror as $book){
+                    ?>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="properties pb-30">
+                                <div class="properties-card">
+                                    <div class="properties-img">
+                                        <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>"</a>
+                                    </div>
+                                    <div class="properties-caption properties-caption2">
+                                        <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                        <p>
+                                            <?php 
+                                                if($book_authors){
+                                                    foreach($book_authors as $author){
+                                                        if($author['id'] == $book['book_authors_id']){
+                                                            echo $author['author_name'];
+                                                        }
+                                                    }
+                                                }
+                                                echo $book['book_authors_id']; 
+                                            ?>
+                                        </p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+
+                                        <div class="properties-footer d-flex justify-content-between align-items-center">
+                                            <div class="review">
+                                                <div class="rating">
+                                                    <?php
+                                                        for($i=1; $i<=5; $i++){
+                                                            if($i <= $average){
+                                                    ?>
+                                                                <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                    <?php
+                                                            }else{
+                                                    ?>
+                                                                <i class="fas fa-star"></i>
+                                                    <?php
+                                                            }        
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
                                             </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
+                                            <div class="price">
+                                                <span><?php echo "$" . $book['book_price']; ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Maid</a></h3>
-                                    <p>Nita Prose</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>$50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
-                                    <p>Dr Mahatir Bin Mohamad</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
-                                    <p>JO Browning Wroe</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
-                                    <p>Emily Victoria</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
-                                    <p>Leslie Vedder</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                    
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-four" role="tabpanel" aria-labelledby="nav-four-tab">
                 <!-- Tab 4 -->
                 <div class="row">
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
-                                    <p>Emily Victoria</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                    
+                    <?php
+                    if($latestPublished_love){
+                        foreach($latestPublished_love as $book){
+                    ?>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="properties pb-30">
+                                <div class="properties-card">
+                                    <div class="properties-img">
+                                        <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>"</a>
+                                    </div>
+                                    <div class="properties-caption properties-caption2">
+                                        <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                        <p>
+                                            <?php 
+                                                if($book_authors){
+                                                    foreach($book_authors as $author){
+                                                        if($author['id'] == $book['book_authors_id']){
+                                                            echo $author['author_name'];
+                                                        }
+                                                    }
+                                                }
+                                                echo $book['book_authors_id']; 
+                                            ?>
+                                        </p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+
+                                        <div class="properties-footer d-flex justify-content-between align-items-center">
+                                            <div class="review">
+                                                <div class="rating">
+                                                    <?php
+                                                        for($i=1; $i<=5; $i++){
+                                                            if($i <= $average){
+                                                    ?>
+                                                                <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                    <?php
+                                                            }else{
+                                                    ?>
+                                                                <i class="fas fa-star"></i>
+                                                    <?php
+                                                            }        
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
                                             </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
+                                            <div class="price">
+                                                <span><?php echo "$" . $book['book_price']; ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
-                                    <p>Leslie Vedder</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
-                                    <p>Saba Tahir</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Maid</a></h3>
-                                    <p>Nita Prose</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">Capturing Hope</a></h3>
-                                    <p>Dr. Mahatir Bin Mohamad</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
-                                    <p>JO Browning Wroe</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                        }
+                    }
+                    ?>
+
                 </div>
             </div>
             <div class="tab-pane fade" id="nav-five" role="tabpanel" aria-labelledby="nav-five-tab">
                 <!-- Tab 5 -->
                 <div class="row">
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling7.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Sky Beyond The Storm</a></h3>
-                                    <p>Saba Tahir</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                    
+                    <?php
+                    if($latestPublished_science){
+                        foreach($latestPublished_science as $book){
+                    ?>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="properties pb-30">
+                                <div class="properties-card">
+                                    <div class="properties-img">
+                                        <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>"</a>
+                                    </div>
+                                    <div class="properties-caption properties-caption2">
+                                        <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                        <p>
+                                            <?php 
+                                                if($book_authors){
+                                                    foreach($book_authors as $author){
+                                                        if($author['id'] == $book['book_authors_id']){
+                                                            echo $author['author_name'];
+                                                        }
+                                                    }
+                                                }
+                                                echo $book['book_authors_id']; 
+                                            ?>
+                                        </p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+
+
+                                        <div class="properties-footer d-flex justify-content-between align-items-center">
+                                            <div class="review">
+                                                <div class="rating">
+                                                    <?php
+                                                        for($i=1; $i<=5; $i++){
+                                                            if($i <= $average){
+                                                    ?>
+                                                                <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                    <?php
+                                                            }else{
+                                                    ?>
+                                                                <i class="fas fa-star"></i>
+                                                    <?php
+                                                            }        
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
                                             </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
+                                            <div class="price">
+                                                <span><?php echo "$" . $book['book_price']; ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling8.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Maid</a></h3>
-                                    <p>Nita Prose</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
+                    <?php
+                        }
+                    }
+                    ?>
+                    
+                </div>
+            </div>
+
+            <div class="tab-pane fade" id="nav-six" role="tabpanel" aria-labelledby="nav-six-tab">
+                <!-- Tab 6 -->
+                <div class="row">
+                    
+                    <?php
+                    if($latestPublished_bio){
+                        foreach($latestPublished_bio as $book){
+                    ?>
+                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                            <div class="properties pb-30">
+                                <div class="properties-card">
+                                    <div class="properties-img">
+                                        <a href="book-details.php?book_id=<?php echo $book['id']; ?>"><img src="<?php echo $book['book_poster']; ?>"</a>
+                                    </div>
+                                    <div class="properties-caption properties-caption2">
+                                        <h3><a href="book-details.php?book_id=<?php echo $book['id']; ?>"><?php echo $book['book_title']; ?></a></h3>
+                                        <p>
+                                            <?php 
+                                                if($book_authors){
+                                                    foreach($book_authors as $author){
+                                                        if($author['id'] == $book['book_authors_id']){
+                                                            echo $author['author_name'];
+                                                        }
+                                                    }
+                                                }
+                                                echo $book['book_authors_id']; 
+                                            ?>
+                                        </p>
+
+                                        <?php
+                                        $query1 = "select * from books_rating WHERE book_id = '".$book['id']."'";
+                                                                            
+                                        $result1 = mysqli_query($con,$query1);
+                                        $rate = 0;
+                                        $totalOrders = 0;
+                                        $average = 0;
+                                        if($result1 && mysqli_num_rows($result1) > 0){
+                                            
+                                            while($row1 = $result1->fetch_assoc()) {
+                                                $rate = $rate + $row1['given_rating'];
+                                                $totalOrders = $totalOrders+1;
+                                            }
+
+                                        }
+
+                                        if($totalOrders > 0){
+                                            $average = $rate / $totalOrders;
+                                        }
+                                        ?>
+                                        
+                                        <div class="properties-footer d-flex justify-content-between align-items-center">
+                                            <div class="review">
+                                                <div class="rating">
+                                                    <?php
+                                                        for($i=1; $i<=5; $i++){
+                                                            if($i <= $average){
+                                                    ?>
+                                                                <i class="fas fa-star" style="color:goldenrod;"></i>          
+                                                    <?php
+                                                            }else{
+                                                    ?>
+                                                                <i class="fas fa-star"></i>
+                                                    <?php
+                                                            }        
+                                                        }
+                                                    ?>
+                                                </div>
+                                                <p><?php echo "(" . $totalOrders . " Reviews)"; ?></p>
                                             </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
+                                            <div class="price">
+                                                <span><?php echo "$" . $book['book_price']; ?></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling6.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">Capturing Hopee</a></h3>
-                                    <p>Dr Mahatir Bin Mohamad</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling4.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">A Terrible Kindness</a></h3>
-                                    <p>JO Browning Wroe</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling9.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Golden Flame</a></h3>
-                                    <p>Emily Victoria</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.php"><img src="assets/img/gallery/best_selling2.jpg" alt=""></a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                    <h3><a href="book-details.php">The Bone Spindle</a></h3>
-                                    <p>Leslie Vedder</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>RM50</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php
+                        }
+                    }
+                    ?>
+                    
                 </div>
             </div>
         </div>
@@ -1289,47 +835,7 @@ $user_data = check_login($con);
     </div>
 </section>
 <!-- Latest-items End -->
-<!-- Want To work -->
-<!-- <section class="container"> -->
-    <!-- <div class="row align-items-center justify-content-between">
-        <div class="col-xl-6 col-lg-6">
-            <div class="wantToWork-area w-padding2 mb-30" data-background="assets/img/gallery/wants-bg1.jpg">
-                <h2>The History<br> of Phipino</h2>
-                <div class="linking">
-                    <a href="#" class="btn wantToWork-btn">View Details</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-6 col-lg-6">
-            <div class="wantToWork-area w-padding2 mb-30" data-background="assets/img/gallery/wants-bg2.jpg">
-                <h2>Wilma Mumduya</h2>
-                <div class="linking">
-                    <a href="#" class="btn wantToWork-btn">View Details</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section> -->
-<!-- Want To work End -->
-<!-- Subscribe Area Start -->
-<!-- <section class="subscribe-area" > -->
-    <!-- <div class="container"> -->
-        <!-- <div class="subscribe-caption text-center  subscribe-padding section-img2-bg" data-background="assets/img/gallery/section-bg1.jpg"> -->
-            <!-- <div class="row justify-content-center"> -->
 
-                <!-- <div class="col-xl-6 col-lg-8 col-md-9"> -->
-                    <!-- <h3>Join Newsletter</h3> -->
-                    <!-- <p>Lorem started its journey with cast iron (CI) products in 1980. The initial main objective was to ensure pure water and affordable irrigation.</p> -->
-                    <!-- <form action="#"> -->
-                        <!-- <input type="text" placeholder="Enter your email"> -->
-                        <!-- <button class="subscribe-btn">Subscribe</button> -->
-                    <!-- </form> -->
-                <!-- </div> -->
-            <!-- </div> -->
-        <!-- </div> -->
-    <!-- </div> -->
-<!-- </section> -->
-<!-- Subscribe Area End -->
 </main>
 <?php include 'include/footer.php'; ?>
 <!-- Scroll Up -->

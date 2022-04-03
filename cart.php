@@ -1,9 +1,40 @@
+<?php
+if($_POST){
+    session_start();
+
+    if(isset($_POST['shippingAdd'])){
+        $_SESSION['shipping'] = $_POST['shipping'];
+    }else{
+        foreach($_POST as $key => $quantity){
+            $book_key = explode("_", $key);
+
+            if($quantity == 0){
+                unset($_SESSION['books_cart'][$book_key[1]]);
+            }else{
+                if (array_key_exists($book_key[1], $_SESSION['books_cart'])) {
+                    $_SESSION['books_cart'][$book_key[1]]['book_quantity'] = $quantity;
+                    $total_price = $_SESSION['books_cart'][$book_key[1]]['book_quantity'] * $_SESSION['books_cart'][$book_key[1]]['book_price'];
+                
+                    $_SESSION['books_cart'][$book_key[1]]['total_price'] = $total_price;
+                }
+            }
+        }
+    }
+
+    header('Location: cart.php');
+    die();
+}
+
+include("php_header.php");
+?>
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -26,7 +57,7 @@
 <body>
 <?php include 'include/topnav.php'; ?>
 <main>
-    <!-- Hero area Start-->
+    <!--area Start-->
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -40,7 +71,7 @@
             </div>
         </div> 
     </div>
-    <!--  Hero area End -->
+    <!--area End -->
     <!--================Cart Area =================-->
     <section class="cart_area section-padding">
         <div class="container">
@@ -56,59 +87,50 @@
                             </tr>
                         </thead>
                         <tbody>
+                            
+                            <?php
+
+                            $sub_total = 0;
+                            if(isset($_SESSION['books_cart'])){
+                                foreach($_SESSION['books_cart'] as $cartItem){
+                                    //echo '<pre>';print_r($cartItem);exit;
+                            ?>
+                            <form action="cart.php" method="post">
                             <tr>
                                 <td>
                                     <div class="media">
                                         <div class="d-flex">
-                                            <img src="assets/img/gallery/best-books1.jpg" alt="" />
+                                            <img src="<?php echo $cartItem['book_poster']; ?>" alt="" />
                                         </div>
                                         <div class="media-body">
-                                            <p>Minimalistic shop for multipurpose use</p>
+                                            <p><?php echo $cartItem['book_title']; ?></p>
                                         </div>
                                     </div>
                                 </td>
                                 <td>
-                                    <h5>$360.00</h5>
+                                    <h5><?php echo "$".$cartItem['book_price']; ?></h5>
                                 </td>
                                 <td>
                                     <div class="product_count">
-                                        <span class="input-number-decrement"> <i class="ti-minus"></i></span>
-                                        <input class="input-number" type="text" value="1" min="0" max="10">
-                                        <span class="input-number-increment"> <i class="ti-plus"></i></span>
+                                        <!--<span class="input-number-decrement"> <i class="ti-minus"></i></span>-->
+                                        <input id="<?php echo "row_".$cartItem['book_id']; ?>" name="<?php echo "row_".$cartItem['book_id']; ?>" class="input-number" type="number" min="0" max="10" value="<?php echo $cartItem['book_quantity']; ?>">
+                                        <!--<span class="input-number-increment"> <i class="ti-plus"></i></span>-->
                                     </div>
                                 </td>
                                 <td>
-                                    <h5>$720.00</h5>
+                                    <h5><?php echo "$".$cartItem['total_price']; ?></h5>
                                 </td>
                             </tr>
-                            <tr>
-                                <td>
-                                    <div class="media">
-                                        <div class="d-flex">
-                                            <img src="assets/img/gallery/best_selling1.jpg" alt="" />
-                                        </div>
-                                        <div class="media-body">
-                                            <p>Minimalistic shop for multipurpose use</p>
-                                        </div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$360.00</h5>
-                                </td>
-                                <td>
-                                    <div class="product_count">
-                                        <span class="input-number-decrement"> <i class="ti-minus"></i></span>
-                                        <input class="input-number2" type="text" value="1" min="0" max="10">
-                                        <span class="input-number-increment"> <i class="ti-plus"></i></span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <h5>$720.00</h5>
-                                </td>
-                            </tr>
+                            
+                            <?php
+                                $sub_total = $sub_total + $cartItem['total_price'];
+                                }
+                            }
+                            ?>
+
                             <tr class="bottom_button">
                                 <td>
-                                    <a class="btn" href="#">Update Cart</a>
+                                    <button class="btn" type="submit">Update Cart</button>
                                 </td>
                                 <td></td>
                                 <td></td>
@@ -125,9 +147,12 @@
                                     <h5>Subtotal</h5>
                                 </td>
                                 <td>
-                                    <h5>$2160.00</h5>
+                                    <h5><?php echo "$".$sub_total; ?></h5>
                                 </td>
                             </tr>
+                            </form>
+                            <form action="cart.php?shipping=YES" method="post">
+                                <input type="hidden" name="shippingAdd" value="1" />
                             <tr class="shipping_area">
                                 <td></td>
                                 <td></td>
@@ -139,19 +164,19 @@
                                         <ul class="list">
                                             <li>
                                                 Flat Rate: $5.00
-                                                <input type="radio" aria-label="Radio button for following text input">
+                                                <input <?php if(isset($_SESSION['shipping']) && $_SESSION['shipping'] == "5.00"){ echo "checked";  } ?> name="shipping" value="5.00" type="radio" aria-label="Radio button for following text input">
                                             </li>
                                             <li>
                                                 Free Shipping
-                                                <input type="radio" aria-label="Radio button for following text input">
+                                                <input <?php if(isset($_SESSION['shipping']) && $_SESSION['shipping'] == "0.00"){ echo "checked";  } ?> name="shipping" value="0.00" type="radio" aria-label="Radio button for following text input">
                                             </li>
                                             <li>
                                                 Flat Rate: $10.00
-                                                <input type="radio" aria-label="Radio button for following text input">
+                                                <input <?php if(isset($_SESSION['shipping']) && $_SESSION['shipping'] == "10.00"){ echo "checked";  } ?> name="shipping" value="10.00" type="radio" aria-label="Radio button for following text input">
                                             </li>
                                             <li class="active">
                                                 Local Delivery: $2.00
-                                                <input type="radio" aria-label="Radio button for following text input">
+                                                <input <?php if(isset($_SESSION['shipping']) && $_SESSION['shipping'] == "2.00"){ echo "checked";  } ?> name="shipping" value="2.00" type="radio" aria-label="Radio button for following text input">
                                             </li>
                                         </ul>
                                         <h6>
@@ -169,14 +194,15 @@
                                             <option value="4">Select a State</option>
                                         </select>
                                         <input class="post_code" type="text" placeholder="Postcode/Zipcode" />
-                                        <a class="btn" href="#">Update Details</a>
+                                        <button type="submit" class="btn">Update Details</button>
                                     </div>
                                 </td>
                             </tr>
+                            </form>
                         </tbody>
                     </table>
                     <div class="checkout_btn_inner float-right">
-                        <a class="btn" href="#">Continue Shopping</a>
+                        <a class="btn" href="index.php">Continue Shopping</a>
                         <a class="btn checkout_btn" href="checkout.php">Proceed to checkout</a>
                     </div>
                 </div>
@@ -185,6 +211,7 @@
     </section>
     <!--================End Cart Area =================-->
 </main>
+
 <?php include 'include/footer.php'; ?>
 <!-- Scroll Up -->
 <div id="back-top" >

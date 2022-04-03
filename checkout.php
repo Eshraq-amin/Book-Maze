@@ -1,9 +1,75 @@
+<?php
+include("php_header.php");
+
+if(!isset($_SESSION)){
+    session_start();
+}
+
+//echo '<pre>';print_r($_SESSION);exit;
+if(!isset($_SESSION['books_cart'])){
+    header('Location: index.php');
+    exit;
+}
+
+if($_POST){
+    //session_start();
+
+    include("connection.php");
+
+    if(!isset($_SESSION['loggedIn_User_Id'])){
+    
+        $user = "insert into users (user_name, email, password) values ('".$_POST['first_name'] . ' ' . $_POST['last_name']."', '".$_POST['email']."', '123')";
+        mysqli_query($con, $user);
+
+        $userId = $con->insert_id;
+        
+        $_SESSION['loggedIn_User_Id'] = $userId;
+        $_SESSION['email'] = $_POST['email'];
+
+        //Check Session against Cart and Update its User Id
+        if(isset($_SESSION['books_cart'])){
+            foreach($_SESSION['books_cart'] as $key => $cartItem){
+                $_SESSION['books_cart'][$key]['user_id'] = $userId;
+            }
+        }
+
+    }
+
+    //Order Table Entry
+    $order = "insert into orders (customer_id, total_amount, created, status) values ('".$_SESSION['loggedIn_User_Id']."', '".$_POST['final_amount']."', '".date('Y-m-d H:i:s')."', 'Placed')";
+    mysqli_query($con, $order);
+
+    $orderId = $con->insert_id;
+
+    //Order Items Entries
+    if(isset($_SESSION['books_cart'])){
+        foreach($_SESSION['books_cart'] as $item){
+            $orderItem = "insert into order_items (order_id, item_id, item_quantity) values ('".$orderId."', '".$item['book_id']."', '".$item['book_quantity']."')";
+            mysqli_query($con, $orderItem);       
+        }
+    }
+    
+    //Deliveru Address Entry
+    $orderAddress = "insert into users_delivery_address (user_id, order_id, first_name, last_name, company_name, phone, email, country, address_1, address_2, city, state, zip, payment_type, order_notes) 
+    values ('".$orderId."', '".$_SESSION['loggedIn_User_Id']."', '".$_POST['first_name']."', '".$_POST['last_name']."', '".$_POST['company_name']."', '".$_POST['phone']."', '".$_POST['email']."', '".$_POST['country']."', '".$_POST['address_line_1']."', '".$_POST['address_line_2']."', '".$_POST['city']."', '".$_POST['state']."', '".$_POST['zip']."', '".$_POST['payment']."', '".$_POST['order_notes']."')";
+    mysqli_query($con, $orderAddress);
+
+    unset($_SESSION['books_cart']);
+    unset($_SESSION['shipping']);
+
+    header('Location: account.php?order_history=Yes');exit;
+
+}
+?>
+
+
+
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Shop</title>
+    <title>Book Maze</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -26,7 +92,7 @@
 <body>
     <?php include 'include/topnav.php'; ?>
 <main>
-    <!-- Hero area Start-->
+    <!-- area Start-->
     <div class="container">
         <div class="row">
             <div class="col-xl-12">
@@ -40,17 +106,19 @@
             </div>
         </div> 
     </div>
-    <!--  Hero area End -->
+    <!--area End -->
 
     <!--? Checkout Area Start-->
     <section class="checkout_area section-padding">
         <div class="container">
+            
+            <?php if(!isset($_SESSION['email'])){ ?>
             <div class="returning_customer">
                 <div class="check_title">
                     <h2>
                         Returning Customer?
 
-                        <a href="login.html">Click here to login</a>
+                        <a href="login.php">Click here to login</a>
                     </h2>
                 </div>
                 <p>
@@ -58,24 +126,21 @@
                     boxes below. If you are a new customer, please proceed to the
                     Billing & Shipping section.
                 </p>
-                <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                <form class="row contact_form" action="login.php" method="post">
                     <div class="col-md-6 form-group p_star">
-                        <input type="text" class="form-control" id="name" name="name" value=" " />
-                        <span class="placeholder" data-placeholder="Username or Email"></span>
+                        <input required="required" type="text" class="form-control" id="email" name="email" value="" placeholder="Username or Email" />
                     </div>
                     <div class="col-md-6 form-group p_star">
-                        <input type="password" class="form-control" id="password" name="password" value="" />
-                        <span class="placeholder" data-placeholder="Password"></span>
+                        <input required="required" type="password" class="form-control" id="password" name="password" value="" placeholder="password" />
                     </div>
                     <div class="col-md-12 form-group d-flex flex-wrap">
-                        <a href="login.html" value="submit" class="btn" > log in</a>
-                        <div class="checkout-cap ml-5">
-                            <input type="checkbox" id="fruit01" name="keep-log">
-                            <label for="fruit01">Create an account?</label>
-                        </div>
+                        <button type="submit" class="btn" >Log In</a>
+                        
                     </div>
                 </form>
             </div>
+            <?php } ?>
+
             <div class="cupon_area">
                 <div class="check_title">
                     <h2> Have a coupon?
@@ -85,65 +150,59 @@
                 <input type="text" placeholder="Enter coupon code" />
                 <a class="btn" href="#">Apply Coupon</a>
             </div>
+
             <div class="billing_details">
                 <div class="row">
                     <div class="col-lg-8">
                         <h3>Billing Details</h3>
-                        <form class="row contact_form" action="#" method="post" novalidate="novalidate">
+                        <form class="row contact_form" action="checkout.php" method="POST">
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="first" name="name" />
-                                <span class="placeholder" data-placeholder="First name"></span>
+                                <input required type="text" class="form-control" id="first" name="first_name" placeholder="First Name" />
                             </div>
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="last" name="name" />
-                                <span class="placeholder" data-placeholder="Last name"></span>
+                                <input required type="text" class="form-control" id="last" name="last_name" placeholder="Last Name" />
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="company" name="company" placeholder="Company name" />
+                                <input required type="text" class="form-control" id="company" name="company_name" placeholder="Company Name" />
                             </div>
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="number" name="number" />
-                                <span class="placeholder" data-placeholder="Phone number"></span>
+                                <input required type="text" class="form-control" id="number" name="phone" placeholder="Phone" />
                             </div>
                             <div class="col-md-6 form-group p_star">
-                                <input type="text" class="form-control" id="email" name="compemailany" />
-                                <span class="placeholder" data-placeholder="Email Address"></span>
+                                <input required type="email" class="form-control" id="email" name="email" placeholder="Email" />
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <select class="country_select">
-                                    <option value="1">Country</option>
-                                    <option value="2">Country</option>
-                                    <option value="4">Country</option>
+                                <select required class="country_select" name="country">
+                                    <option value="Pakistan">Pakistan</option>
                                 </select>
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="add1" name="add1" />
-                                <span class="placeholder" data-placeholder="Address line 01"></span>
+                                <input required type="text" class="form-control" id="add1" name="address_line_1" placeholder="Address Line 1" />
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="add2" name="add2" />
-                                <span class="placeholder" data-placeholder="Address line 02"></span>
+                                <input type="text" class="form-control" id="add2" name="address_line_2" placeholder="Address Line 2" />
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <input type="text" class="form-control" id="city" name="city" />
-                                <span class="placeholder" data-placeholder="Town/City"></span>
+                                <input required type="text" class="form-control" id="city" name="city" placeholder="City" />
                             </div>
                             <div class="col-md-12 form-group p_star">
-                                <select class="country_select">
-                                    <option value="1">District</option>
-                                    <option value="2">District</option>
-                                    <option value="4">District</option>
+                                <select required class="country_select" name="state" placeholder="State">
+                                    <option value="Punjab">Punjab</option>
                                 </select>
                             </div>
                             <div class="col-md-12 form-group">
-                                <input type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" />
+                                <input required type="text" class="form-control" id="zip" name="zip" placeholder="Postcode/ZIP" />
                             </div>
+
+                            <?php if(!isset($_SESSION['email'])){ ?>
                             <div class="col-md-12 form-group">
                                 <div class="checkout-cap">
                                     <input type="checkbox" id="fruit1" name="keep-log">
                                     <label for="fruit1">Create an account?</label>
                                 </div>
                             </div>
+                            <?php } ?>
+
                             <div class="col-md-12 form-group">
                                 <div class="creat_account">
                                     <h3>Shipping Details</h3>
@@ -152,9 +211,8 @@
                                         <label for="f-option3">Ship to a different address?</label>
                                     </div>
                                 </div>
-                                <textarea class="form-control" name="message" id="message" rows="1" placeholder="Order Notes"></textarea>
+                                <textarea class="form-control" name="order_notes" id="message" rows="1" placeholder="Order Notes"></textarea>
                             </div>
-                        </form>
                     </div>
                     <div class="col-lg-4">
                         <div class="order_box">
@@ -164,42 +222,53 @@
                                     <a href="#">Product<span>Total</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="#">Fresh Blackberry
-                                        <span class="middle">x 02</span>
-                                        <span class="last">$720.00</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">Fresh Tomatoes
-                                        <span class="middle">x 02</span>
-                                        <span class="last">$720.00</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">Fresh Brocoli
-                                        <span class="middle">x 02</span>
-                                        <span class="last">$720.00</span>
-                                    </a>
-                                </li>
+
+                                <?php
+                                if(isset($_SESSION['books_cart'])){
+                                    $sub_total = 0;
+                                    foreach($_SESSION['books_cart'] as $cartItem){
+                                ?>
+                                        <li>
+                                            <a href="#"><?php echo $cartItem['book_title']; ?>
+                                                <span class="middle">x <?php echo $cartItem['book_quantity']; ?></span>
+                                                <span class="last"><?php echo "$".$cartItem['total_price']; ?></span>
+                                            </a>
+                                        </li>        
+                                <?php
+                                    $sub_total = $sub_total + $cartItem['total_price'];      
+                                    }
+                                }
+                                ?>
                             </ul>
                             <ul class="list list_2">
                                 <li>
-                                    <a href="#">Subtotal <span>$2160.00</span></a>
+                                    <a href="#">Subtotal <span><?php echo "$".$sub_total; ?></span></a>
                                 </li>
                                 <li>
                                     <a href="#">Shipping
-                                        <span>Flat rate: $50.00</span>
+                                        <span>Flat rate: <?php if(isset($_SESSION['shipping'])){ echo "$".$_SESSION['shipping']; }else{ echo "$50.00"; } ?></span>
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#">Total<span>$2210.00</span>
+                                    <a href="#">Total<span>
+                                        <?php
+                                            $shipping = 50.00;
+                                            if(isset($_SESSION['shipping'])){ 
+                                                $shipping = $_SESSION['shipping'];
+                                            }
+                                            $afterShipping = $sub_total + $shipping;
+
+                                            echo "$".$afterShipping;
+                                        ?>
+
+                                        <input type="hidden" name="final_amount" value="<?php echo $afterShipping; ?>" />
+                                    </span>
                                     </a>
                                 </li>
                             </ul>
                             <div class="payment_item">
                                 <div class="radion_btn">
-                                    <input type="radio" id="f-option5" name="selector" />
+                                    <input type="radio" id="f-option5" name="payment" value="check" required />
                                     <label for="f-option5">Check payments</label>
                                     <div class="check"></div>
                                 </div>
@@ -207,7 +276,7 @@
                             </div>
                             <div class="payment_item active">
                                 <div class="radion_btn">
-                                    <input type="radio" id="f-option6" name="selector" />
+                                    <input type="radio" id="f-option6" name="payment" value="paypal" required />
                                     <label for="f-option6">Paypal </label>
                                     <img src="assets/img/gallery/card.jpg" alt="" />
                                     <div class="check"></div>
@@ -218,9 +287,10 @@
                                 <input type="checkbox" id="f-option8" name="selector" />
                                 <label for="f-option8">I’ve read and accept the  <a href="#">terms & conditions*</a> </label>
                             </div>
-                            <a class="btn w-100" href="#">Proceed to Paypal</a>
+                            <button class="btn w-100" type="submit">Place Order</button>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
         </div>

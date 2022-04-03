@@ -1,47 +1,47 @@
 <?php
-session_start();
+if(!isset($_SESSION)){
+    session_start();
+}
+
+if(isset($_SESSION['admin_id'])){
+    header("Location: admin_dashboard.php");
+    exit;
+}
 
 include("connection.php");
-//include("functions.php");
 
-if($_SERVER['REQUEST_METHOD'] == "POST")
-{
-    //something was posted
-    $user_name = $_POST['user_name'];
+$email=$password=$resMessage='';
+if($_SERVER['REQUEST_METHOD'] == "POST"){
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if(!empty($user_name)&&  !empty($password)&&  !empty($email) && !is_numeric($user_name))
-    {
-     
-        //save to database
-        $query = "insert into users (user_name,email,password) values ('$user_name','$email','$password')";
-        
-        mysqli_query($con, $query);
-
-        header("Location: login.php");
-        die;
-
-
-    }else
-    {
-        echo "Please enter valid information.";
+    $loggedIn = 0;
+    if(!empty($password) &&  !empty($email)){
+        $query = "select * from admin_user where email = '$email' limit 1";
+        $result = mysqli_query($con, $query);
+        if($result->num_rows > 0){
+            if($result && mysqli_num_rows($result) > 0){
+                $user_data = mysqli_fetch_assoc($result);
+                if($user_data['password'] === $password){
+                    $_SESSION['admin_id'] = $user_data['id'];
+                    header("Location: admin_dashboard.php");
+                    die;
+                }
+            }
+        }
     }
+
+    $resMessage = "Please enter correct login details!...";
+
 }
-
-
 ?>
-
-
-
-
 
 <!doctype html>
 <html class="no-js" lang="zxx">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Book Maze</title>
+    <title>Book Maze Admin</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/icon/favicon.png">
@@ -62,43 +62,39 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     <link rel="stylesheet" href="mycss/mystyle.css">
 </head>
 <body>
-    <!-- header end -->
-    <main class="login-bg">
-        <!-- Register Area Start -->
-        <form method="post">
 
-        <div class="register-form-area">
-            <div class="register-form text-center">
+    <main class="login-bg">
+        <!-- login Area Start -->
+        <form action="" method="post">
+
+        <div class="login-form-area">
+            <div class="login-form">
                 <!-- Login Heading -->
-                <div class="register-heading">
-                    <span>Sign Up</span>
-                    <p>Create your account to get full access</p>
+                <div class="login-heading">
+                    <span>Admin Login</span>
+                    <p>Enter Admin Login details to get access</p>
                 </div>
                 <!-- Single Input Fields -->
-                <div class="input-box">
+                <div class="input-box" style="padding-bottom:0px !important;">
                     <div class="single-input-fields">
-                        <label>Full name</label>
-                        <input type="text" name="user_name" placeholder="Enter full name">
-                    </div>
-                    <div class="single-input-fields">
-                        <label>Email Address</label>
-                        <input type="email"  name="email" placeholder="Enter email address">
+                        <label> Email Address</label>
+                        <input required type="text" name="email" placeholder="Email address">
                     </div>
                     <div class="single-input-fields">
                         <label>Password</label>
-                        <input type="password" name="password" placeholder="Enter Password">
+                        <input required type="password" name="password" placeholder="Enter Password">
                     </div>
-                    
                 </div>
-                <!-- form Footer -->
-                <div class="register-footer">
-                    <p> Already have an account? <a href="login.php"> Login</a> here</p>
-                    <button class="submit-btn3">Sign Up</button> 
+
+                <div style="text-align:center; color:red;"><?php if(isset($resMessage)){ echo $resMessage; } ?></div>
+                
+                <div class="login-footer">
+                    <button class="submit-btn3" style="width:100%;">Login</button>
                 </div>
             </div>
         </div>
 </form>
-        <!-- Register Area End -->
+        <!-- login Area End -->
     </main>
 
     <!-- JS here -->

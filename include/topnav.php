@@ -1,3 +1,13 @@
+<style>
+    #cartItems{
+        position:absolute;content:"0";width:24px;height:24px;background:#FF1616;color:#fff;line-height:24px;text-align:center;border-radius:30px;font-size:12px;top:-8px;right:-8px;-webkit-transition:all .3s ease-out 0s;-moz-transition:all .3s ease-out 0s;-ms-transition:all .3s ease-out 0s;-o-transition:all .3s ease-out 0s;transition:all .3s ease-out 0s;box-shadow:0 2px 5px rgba(0,0,0,0.3);
+    }
+</style>
+<?php
+if(!isset($_SESSION)){
+    session_start();
+}
+?>
 <header>
         <div class="header-area">
          <div class="main-header ">
@@ -12,21 +22,47 @@
                                     <a href="index.php"><img src="assets/img/logo/logo.png" alt=""></a>
                                 </div>
                                 <!-- Search Box -->
-                                <form action="#" class="form-box">
-                                    <input type="text" name="Search" placeholder="Search book by author or publisher">
+                                <form id="search" action="categories.php" method="POST" class="form-box">
+                                    <input type="text" name="author_publisher" placeholder="Search book by name, author or publisher">
                                     <div class="search-icon">
-                                        <i class="ti-search"></i>
+                                        <i class="ti-search" onclick="proceed();"></i>
                                     </div>
                                 </form>
                             </div>
+                            <?php
+                                $url_cart = 'cart.php';
+                                $items = 0;
+                                if(!isset($_SESSION['books_cart'])){
+                                    $url_cart = 'cart.php';
+                                }
+                                if(isset($_SESSION['books_cart'])){
+                                    $items = count($_SESSION['books_cart']);
+                                }
+                            ?>
                             <div class="header-info-right d-flex align-items-center">
                                 <ul>                                   
-                                    <li><a href="#">FAQ</a></li>
-                                    <li><a href="#">Track Order</a></li>
+                                
                                     <li class="shopping-card">
-                                        <a href="cart.php"><img src="assets/img/icon/cart.svg" alt=""></a>
+                                        <a href="<?php echo $url_cart; ?>"><img src="assets/img/icon/cart.svg" alt=""></a>
+                                        <span id="cartItems">
+                                            <?php echo $items; ?>
+                                        </span>
                                     </li>
-                                    <li><a href="login.php" class="btn header-btn sign_in-btn">Sign in</a></li>
+
+                                    <?php
+                                    if(isset($_SESSION['email']))
+                                    {
+                                        echo "<li><a href=\"account.php\">My Account</a></li>";
+                                    }else
+                                    {
+                                        echo "<li><a href=\"login.php\" class=\"btn header-btn sign_in-btn\">Sign in</a></li>";
+                                    }
+
+
+                                    
+
+                                    ?>
+
                                 </ul>
                             </div>
                         </div>
@@ -49,16 +85,6 @@
                                 <li><a href="index.php" class="navbar-buttons-index">Home</a></li>
                                 <li><a href="categories.php" class="navbar-buttons-index">Categories</a></li>
                                 <li><a href="about.php" class="navbar-buttons-index">About</a></li>
-                                <!-- <li><a href="#">Pages</a> -->
-                                    <!-- <ul class="submenu"> -->
-                                        <!-- <li><a href="login.php" class="navbar-buttons-index">Login</a></li> -->
-                                        <!-- <li><a href="cart.html" class="navbar-buttons-index">Cart</a></li> -->
-                                        <!-- <li><a href="checkout.html" class="navbar-buttons-index">Checkout</a></li> -->
-                                        <!-- <li><a href="book-details.html" class="navbar-buttons-index">book Details</a></li> -->
-                                        <!-- <li><a href="blog_details.html" class="navbar-buttons-index">Blog Details</a></li> -->
-                                        <!-- <li><a href="elements.html" class="navbar-buttons-index">Element</a></li> -->
-                                    <!-- </ul> -->
-                                <!-- </li> -->
                                 <li><a href="contact.php" class="navbar-buttons-index">Contact</a></li>
                             </ul>
                         </nav>
@@ -72,6 +98,12 @@
         </div>                         
     </div>
 </div>
+
+<script type="text/javascript">
+    function proceed(){
+        document.getElementById("search").submit();
+    }
+</script>
 
 </div>
 </header>
