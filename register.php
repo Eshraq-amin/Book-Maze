@@ -15,7 +15,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST")
     {
      
         //save to database
-        $query = "insert into users (user_name,email,password) values ('$user_name','$email','$password')";
+        $query = "INSERT INTO users (user_name,email,password) VALUES ('$user_name','$email','$password')";
         
         mysqli_query($con, $query);
 
