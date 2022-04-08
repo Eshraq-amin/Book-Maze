@@ -326,8 +326,8 @@ if($_POST){
                                                                     <th>Customer Name</th>
                                                                     <th>Total Price</th>
                                                                     <th>Created</th>
-                                                                    <th>Stats</th>
-                                                                    <th>Update Stats</th>
+                                                                    <th>Status</th>
+                                                                    <th>Update Status</th>
                                                                 </tr>
                                                             </thead>
                                                             <tbody>

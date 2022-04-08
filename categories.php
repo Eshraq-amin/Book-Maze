@@ -180,15 +180,7 @@ include("php_header.php");
                     <div class="row justify-content-end">
                         <div class="col-xl-4">
                            <div class="product_page_tittle">
-                            <div class="short_by">
-                                <select name="#" id="product_short_list">
-                                    <option>Browse by popularity</option>
-                                    <option>Name</option>
-                                    <option>NEW</option>
-                                    <option>Old</option>
-                                    <option>Price</option>
-                                </select>
-                            </div>
+                
                         </div>
                     </div>
                 </div>
